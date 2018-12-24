@@ -1,0 +1,209 @@
+{
+  "port": "3001",
+  "protocol": "https",
+  "stubs": [
+    {
+      "predicates": [{
+        "contains": {
+          "path": "/v2/apps",
+          "method": "GET"
+        }
+      }],
+      "responses": [{
+        "is": {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          "body": {
+            "total_results": 3,
+            "total_pages": 1,
+            "prev_url": null,
+            "next_url": null,
+            "resources": [
+              {
+                "metadata": {
+                  "guid": "6064d98a-95e6-400b-bc03-be65e6d59622",
+                  "url": "/v2/apps/6064d98a-95e6-400b-bc03-be65e6d59622",
+                  "created_at": "2016-06-08T16:41:45Z",
+                  "updated_at": "2016-06-08T16:41:45Z"
+                },
+                "entity": {
+                  "name": "name-2443",
+                  "production": false,
+                  "space_guid": "9c5c8a91-a728-4608-9f5e-6c8026c3a2ac",
+                  "stack_guid": "f6c960cc-98ba-4fd1-b197-ecbf39108aa2",
+                  "buildpack": null,
+                  "detected_buildpack": null,
+                  "detected_buildpack_guid": null,
+                  "environment_json": null,
+                  "memory": 1024,
+                  "instances": 1,
+                  "disk_quota": 1024,
+                  "state": "STOPPED",
+                  "version": "f5696e0f-087d-49b0-9ad7-4756c49a6ba6",
+                  "command": null,
+                  "console": false,
+                  "debug": null,
+                  "staging_task_id": null,
+                  "package_state": "PENDING",
+                  "health_check_http_endpoint": "",
+                  "health_check_type": "port",
+                  "health_check_timeout": null,
+                  "staging_failed_reason": null,
+                  "staging_failed_description": null,
+                  "diego": false,
+                  "docker_image": null,
+                  "docker_credentials": {
+                    "username": null,
+                    "password": null
+                  },
+                  "package_updated_at": "2016-06-08T16:41:45Z",
+                  "detected_start_command": "",
+                  "enable_ssh": true,
+                  "ports": null,
+                  "space_url": "/v2/spaces/9c5c8a91-a728-4608-9f5e-6c8026c3a2ac",
+                  "stack_url": "/v2/stacks/f6c960cc-98ba-4fd1-b197-ecbf39108aa2",
+                  "routes_url": "/v2/apps/6064d98a-95e6-400b-bc03-be65e6d59622/routes",
+                  "events_url": "/v2/apps/6064d98a-95e6-400b-bc03-be65e6d59622/events",
+                  "service_bindings_url": "/v2/apps/6064d98a-95e6-400b-bc03-be65e6d59622/service_bindings",
+                  "route_mappings_url": "/v2/apps/6064d98a-95e6-400b-bc03-be65e6d59622/route_mappings"
+                }
+              },
+              {
+                "metadata": {
+                  "guid": "69ebed50-222a-4880-b163-fb1bf7d60b0c",
+                  "url": "/v2/apps/69ebed50-222a-4880-b163-fb1bf7d60b0c",
+                  "created_at": "2016-06-08T16:41:45Z",
+                  "updated_at": "2016-06-08T16:41:45Z"
+                },
+                "entity": {
+                  "name": "roster",
+                  "production": false,
+                  "space_guid": "5a98cff5-d97b-4828-9bfe-8d3f9fc80d3a",
+                  "stack_guid": "5dc6e2cc-9f50-4c8f-9a11-1a7f821e3d09",
+                  "buildpack": null,
+                  "detected_buildpack": null,
+                  "environment_json": null,
+                  "memory": 1024,
+                  "instances": 1,
+                  "disk_quota": 1024,
+                  "state": "STARTED",
+                  "version": "cf98a13f-4001-4595-ba34-a9a7f32b2fb2",
+                  "command": null,
+                  "console": false,
+                  "debug": null,
+                  "staging_task_id": null,
+                  "package_state": "PENDING",
+                  "health_check_http_endpoint": "",
+                  "health_check_type": "port",
+                  "health_check_timeout": null,
+                  "staging_failed_reason": null,
+                  "staging_failed_description": null,
+                  "diego": false,
+                  "docker_image": null,
+                  "docker_credentials": {
+                    "username": null,
+                    "password": null
+                  },
+                  "package_updated_at": "2016-06-08T16:41:45Z",
+                  "detected_start_command": "",
+                  "enable_ssh": true,
+                  "ports": null,
+                  "space_url": "/v2/spaces/5a98cff5-d97b-4828-9bfe-8d3f9fc80d3a",
+                  "stack_url": "/v2/stacks/5dc6e2cc-9f50-4c8f-9a11-1a7f821e3d09",
+                  "routes_url": "/v2/apps/69ebed50-222a-4880-b163-fb1bf7d60b0c/routes",
+                  "events_url": "/v2/apps/69ebed50-222a-4880-b163-fb1bf7d60b0c/events",
+                  "service_bindings_url": "/v2/apps/69ebed50-222a-4880-b163-fb1bf7d60b0c/service_bindings",
+                  "route_mappings_url": "/v2/apps/69ebed50-222a-4880-b163-fb1bf7d60b0c/route_mappings"
+                }
+              },
+              {
+                "metadata": {
+                  "guid": "d7133689-3df2-4907-b335-3621cbb21507",
+                  "url": "/v2/apps/d7133689-3df2-4907-b335-3621cbb21507",
+                  "created_at": "2016-06-08T16:41:45Z",
+                  "updated_at": "2016-06-08T16:41:45Z"
+                },
+                "entity": {
+                  "name": "name-2431",
+                  "production": false,
+                  "space_guid": "004c5060-b2df-48bc-8388-1f129be2e232",
+                  "stack_guid": "3e462631-6d79-4f1a-8538-c8f1c7b50fc9",
+                  "buildpack": null,
+                  "detected_buildpack": null,
+                  "detected_buildpack_guid": null,
+                  "environment_json": null,
+                  "memory": 1024,
+                  "instances": 1,
+                  "disk_quota": 1024,
+                  "state": "STOPPED",
+                  "version": "120d2490-f8c6-4e7d-86ed-be6f54ed6eb3",
+                  "command": null,
+                  "console": false,
+                  "debug": null,
+                  "staging_task_id": null,
+                  "package_state": "PENDING",
+                  "health_check_http_endpoint": "",
+                  "health_check_type": "port",
+                  "health_check_timeout": null,
+                  "staging_failed_reason": null,
+                  "staging_failed_description": null,
+                  "diego": false,
+                  "docker_image": null,
+                  "docker_credentials": {
+                    "username": null,
+                    "password": null
+                  },
+                  "package_updated_at": "2016-06-08T16:41:45Z",
+                  "detected_start_command": "",
+                  "enable_ssh": true,
+                  "ports": null,
+                  "space_url": "/v2/spaces/004c5060-b2df-48bc-8388-1f129be2e232",
+                  "stack_url": "/v2/stacks/3e462631-6d79-4f1a-8538-c8f1c7b50fc9",
+                  "routes_url": "/v2/apps/d7133689-3df2-4907-b335-3621cbb21507/routes",
+                  "events_url": "/v2/apps/d7133689-3df2-4907-b335-3621cbb21507/events",
+                  "service_bindings_url": "/v2/apps/d7133689-3df2-4907-b335-3621cbb21507/service_bindings",
+                  "route_mappings_url": "/v2/apps/d7133689-3df2-4907-b335-3621cbb21507/route_mappings"
+                }
+              }
+            ]
+          }
+        }
+      }]
+    },
+    {
+      "predicates": [{
+        "equals": {
+          "path": "/v2/info",
+          "method": "GET"
+        }
+      }],
+      "responses": [{
+        "is": {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          "body": {
+            "name": "vcap",
+            "build": "2222",
+            "support": "http://support.cloudfoundry.com",
+            "version": 2,
+            "description": "Cloud Foundry sponsored by Pivotal",
+            "authorization_endpoint": "http://localhost:4001",
+            "token_endpoint": "http://localhost:4001",
+            "min_cli_version": null,
+            "min_recommended_cli_version": null,
+            "api_version": "2.124.0",
+            "app_ssh_endpoint": "ssh.system.domain.example.com:2222",
+            "app_ssh_host_key_fingerprint": "47:0d:d1:c8:c3:3d:0a:36:d1:49:2f:f2:90:27:31:d0",
+            "app_ssh_oauth_client": null,
+            "routing_endpoint": "http://localhost:3000",
+            "logging_endpoint": "ws://loggregator.vcap.me:80"
+          }
+        }
+      }]
+    }
+  ]
+}
