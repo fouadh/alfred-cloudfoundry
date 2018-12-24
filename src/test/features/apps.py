@@ -52,7 +52,7 @@ def list_all_apps(step_instance):
         "login": "alice@acme.com",
         "password": "alice123"
     }
-    get_apps(world, world.workflow, target)
+    get_apps(world.workflow, target)
 
 
 @step("one application named (.*) is started on Cloud Foundry")
