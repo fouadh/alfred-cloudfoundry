@@ -440,7 +440,7 @@
 				<key>fixedorder</key>
 				<false/>
 				<key>items</key>
-				<string>[{"title":"Cloud Foundry Applications","arg":"apps"},{"title":"Cloud Foundry Services","arg":"services"},{"title":"Cloud Foundry Routes","arg":"routes"},{"title":"Cloud Foundry Domains","arg":"domains"},{"title":"Cloud Foundry Marketplace","arg":"marketplace"},{"title":"Cloud Foundry Plugins","arg":"plugins"}]</string>
+				<string>[{"title":"Cloud Foundry Applications","arg":"apps"},{"title":"Cloud Foundry Services","arg":"services"},{"title":"Cloud Foundry Routes","arg":"routes"},{"title":"Cloud Foundry Domains","arg":"domains"},{"title":"Cloud Foundry Marketplace","arg":"marketplace"},{"title":"Cloud Foundry Plugins","arg":"plugins"},{"title":"Cloud Foundry Buildpacks","arg":"buildpacks"},{"title":"Cloud Foundry Service Bindings","arg":"service-bindings"},{"title":"Cloud Foundry Service Brokers","arg":"service-brokers"},{"title":"Cloud Foundry Service Instances","arg":"service-instances"},{"title":"Cloud Foundry Spaces","arg":"spaces"},{"title":"Cloud Foundry Service Keys","arg":"service-keys"},{"title":"Cloud Foundry Service Plans","arg":"service-plans"},{"title":"Cloud Foundry User Provided Instances","arg":"cups"},{"title":"Cloud Foundry Stacks","arg":"stacks"},{"title":"Cloud Foundry Organizations","arg":"organizations"}]</string>
 				<key>keyword</key>
 				<string>cf</string>
 				<key>runningsubtext</key>
@@ -480,6 +480,27 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>cf setendpoint</string>
+				<key>subtext</key>
+				<string>Type the endpoint value</string>
+				<key>text</key>
+				<string>Configure Cloud Foundry Endpoint</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>6D9AD98E-CF0F-4614-B066-BF03A36441F1</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argument</key>
 				<string>{query}</string>
 				<key>variables</key>
@@ -510,27 +531,6 @@
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
 			<string>D317EDA4-2593-4631-96FD-817679A480A3</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>keyword</key>
-				<string>cf setendpoint</string>
-				<key>subtext</key>
-				<string>Type the endpoint value</string>
-				<key>text</key>
-				<string>Configure Cloud Foundry Endpoint</string>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>6D9AD98E-CF0F-4614-B066-BF03A36441F1</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -620,9 +620,9 @@
 		<key>42365D29-65A6-42DC-A4D5-3BBCB38D3328</key>
 		<dict>
 			<key>xpos</key>
-			<integer>740</integer>
+			<integer>710</integer>
 			<key>ypos</key>
-			<integer>150</integer>
+			<integer>100</integer>
 		</dict>
 		<key>4C69DAE3-F0EA-48C7-9694-99E8646BB045</key>
 		<dict>
@@ -655,9 +655,9 @@
 		<key>6D9AD98E-CF0F-4614-B066-BF03A36441F1</key>
 		<dict>
 			<key>xpos</key>
-			<integer>100</integer>
+			<integer>130</integer>
 			<key>ypos</key>
-			<integer>650</integer>
+			<integer>590</integer>
 		</dict>
 		<key>9620BA59-2F89-4878-871E-5996D0DDCCE9</key>
 		<dict>

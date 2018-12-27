@@ -4,7 +4,7 @@
 import sys
 import json
 import os
-from cf_commands import get_apps, get_routes, get_services, get_buildpacks
+from cf_commands import can_execute, execute
 
 from workflow import Workflow3, ICON_ERROR, notify
 
@@ -73,10 +73,10 @@ def buildNoCredentialsMessage():
     return items
 
 
-def execute_list_command(workflow, function):
+def execute_list_command(workflow, command):
     credentials = findCredentials(workflow)
     if credentials:
-        return function(credentials)
+        return execute(command, credentials)
     else:
         return buildNoCredentialsMessage()
 
@@ -86,15 +86,8 @@ def main(workflow):
     command = os.getenv('command')
 
     if command:
-        log.debug("command: " + command.upper())
-        if command == 'apps':
-            items = execute_list_command(workflow, get_apps)
-        elif command == 'routes':
-            items = execute_list_command(workflow, get_routes)
-        elif command == 'services':
-            items = execute_list_command(workflow, get_services)
-        elif command == 'buildpacks':
-            items = execute_list_command(workflow, get_buildpacks)
+        if can_execute(command):
+            items = execute_list_command(workflow, command)
         elif command == 'set-endpoint':
             setup_endpoint(workflow)
         elif command == 'set-credentials':
