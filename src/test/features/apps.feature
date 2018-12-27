@@ -1,14 +1,20 @@
 Feature: Listing applications hosted in Cloud Foundry
+  Scenario: Unauthenticated users should get an error message
+
+    Given one application named roster is started on Cloud Foundry
+    When John wants to list all the apps
+    Then the workflow should contain an item with title 'You are not identified: please provide your credentials' and no subtitle
+
 
   Scenario: Empty list should return an informative message
 
     Given no application is hosted on Cloud Foundry
-    When I want to list all of them
+    When Alice wants to list all the apps
     Then the workflow should contain an item with title 'No application found' and no subtitle
 
   Scenario: Applications should be retrieved with their metadata
 
     Given one application named roster is started on Cloud Foundry
-    When I want to list all of them
+    When Alice wants to list all the apps
     Then the workflow should contain an item with title 'roster' and subtitle 'STARTED'
 

@@ -7,7 +7,27 @@
         {
           "equals": {
             "method": "POST",
-            "path": "/oauth/token"
+            "path": "/oauth/token",
+            "body": "scope=&grant_type=password"
+          }
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 401,
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {
+            "method": "POST",
+            "path": "/oauth/token",
+            "body": "username=Alice%40acme.com&scope=&password=alice123&grant_type=password"
           }
         }
       ],
