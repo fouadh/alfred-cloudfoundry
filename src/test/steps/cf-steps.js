@@ -40,6 +40,18 @@ cleanupCloudFoundryConfig = () => {
     });
 }
 
+expectItemInOutput = async (title, subtitle) => {
+    await waitOn({
+        resources: [ `file:${outputFile}` ],
+        timeout: 3000
+    });
+
+    const items = JSON.parse(fs.readFileSync(outputFile, 'utf-8'));
+
+    const data = items.filter((item) => item.title === title && item.subtitle === subtitle);
+    expect(data.length).to.equal(1);
+}
+
 BeforeAll(async () => {
     await cleanupCloudFoundryConfig();
     await sleep(600);
@@ -63,6 +75,14 @@ Given(/one application named (.*) is started on Cloud Foundry/, async (appName) 
     await createImposterFromFixture('cf-apps-stubs');
 });
 
+Given('no route is hosted on Cloud Foundry', async () => {
+    await createImposterFromFixture('cf-noroute-stubs');
+});
+
+Given(/one route with host name (.*) is created on Cloud Foundry/, async (host) => {
+    await createImposterFromFixture('cf-routes-stubs');
+});
+
 When(/(.*) wants to list all the apps/, async (user) => {
     await setupCloudFoundryCredentials(`${user}@acme.com`, `${user.toLowerCase()}123`);
     await sleep(600);
@@ -72,17 +92,14 @@ When(/(.*) wants to list all the apps/, async (user) => {
     }, [outputFile]);
 });
 
-expectItemInOutput = async (title, subtitle) => {
-    await waitOn({
-        resources: [ `file:${outputFile}` ],
-        timeout: 3000
-    });
-
-    const items = JSON.parse(fs.readFileSync(outputFile, 'utf-8'));
-
-    const data = items.filter((item) => item.title === title && item.subtitle === subtitle);
-    expect(data.length).to.equal(1);
-}
+When(/(.*) wants to list all the routes/, async (user) => {
+    await setupCloudFoundryCredentials(`${user}@acme.com`, `${user.toLowerCase()}123`);
+    await sleep(600);
+    await runJxa((outputFile) => {
+        const alfred = Application("Alfred 3");
+        alfred.runTrigger("cf-routes", { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": outputFile });
+    }, [outputFile]);
+  });
 
 Then(/the workflow should contain an item with title '(.*)' and no subtitle/, async (title) => {
     await expectItemInOutput(title, "");

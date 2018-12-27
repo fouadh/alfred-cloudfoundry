@@ -1,0 +1,84 @@
+{
+  "port": "3001",
+  "protocol": "https",
+  "stubs": [
+    {
+      "predicates": [{
+        "contains": {
+          "path": "/v2/routes",
+          "method": "GET"
+        }
+      }],
+      "responses": [{
+        "is": {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          "body": {
+            "total_results": 3,
+            "total_pages": 1,
+            "prev_url": null,
+            "next_url": null,
+            "resources": [
+              {
+                "metadata": {
+                  "guid": "45f84279-3c95-4a52-a4ef-77ae23ff330d",
+                  "url": "/v2/routes/45f84279-3c95-4a52-a4ef-77ae23ff330d",
+                  "created_at": "2016-06-08T16:41:28Z",
+                  "updated_at": "2016-06-08T16:41:26Z"
+                },
+                "entity": {
+                  "host": "roster-host",
+                  "path": "",
+                  "domain_guid": "10378eb2-d769-4064-8264-5ec8beff1ba8",
+                  "space_guid": "f69a6cb8-1b1d-4970-a47b-062c116a5233",
+                  "service_instance_guid": "2808a86e-86ff-49c3-9109-7838495c3fa0",
+                  "port": null,
+                  "domain_url": "/v2/shared_domains/10378eb2-d769-4064-8264-5ec8beff1ba8",
+                  "space_url": "/v2/spaces/f69a6cb8-1b1d-4970-a47b-062c116a5233",
+                  "service_instance_url": "/v2/service_instances/2808a86e-86ff-49c3-9109-7838495c3fa0",
+                  "apps_url": "/v2/routes/45f84279-3c95-4a52-a4ef-77ae23ff330d/apps",
+                  "route_mappings_url": "/v2/routes/45f84279-3c95-4a52-a4ef-77ae23ff330d/route_mappings"
+                }
+              }
+            ]
+          }
+        }
+      }]
+    },
+    {
+      "predicates": [{
+        "equals": {
+          "path": "/v2/info",
+          "method": "GET"
+        }
+      }],
+      "responses": [{
+        "is": {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          "body": {
+            "name": "vcap",
+            "build": "2222",
+            "support": "http://support.cloudfoundry.com",
+            "version": 2,
+            "description": "Cloud Foundry sponsored by Pivotal",
+            "authorization_endpoint": "http://localhost:4001",
+            "token_endpoint": "http://localhost:4001",
+            "min_cli_version": null,
+            "min_recommended_cli_version": null,
+            "api_version": "2.124.0",
+            "app_ssh_endpoint": "ssh.system.domain.example.com:2222",
+            "app_ssh_host_key_fingerprint": "47:0d:d1:c8:c3:3d:0a:36:d1:49:2f:f2:90:27:31:d0",
+            "app_ssh_oauth_client": null,
+            "routing_endpoint": "http://localhost:3000",
+            "logging_endpoint": "ws://loggregator.vcap.me:80"
+          }
+        }
+      }]
+    }
+  ]
+}

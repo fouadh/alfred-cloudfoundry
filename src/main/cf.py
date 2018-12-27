@@ -4,7 +4,7 @@
 import sys
 import json
 import os
-from cf_commands import get_apps
+from cf_commands import get_apps, get_routes
 
 from workflow import Workflow3, ICON_ERROR, notify
 
@@ -66,15 +66,19 @@ def setup_endpoint(workflow):
     return None
 
 
-def list_apps(workflow):
+def buildNoCredentialsMessage():
+    items = list()
+    items.append(
+        dict(title="You are not identified: please provide your credentials", subtitle="", icon=ICON_ERROR))
+    return items
+
+
+def execute_list_command(workflow, function):
     credentials = findCredentials(workflow)
     if credentials:
-        return get_apps(credentials)
+        return function(credentials)
     else:
-        items = list()
-        items.append(
-            dict(title="You are not identified: please provide your credentials", subtitle="", icon=ICON_ERROR))
-        return items
+        return buildNoCredentialsMessage()
 
 
 def main(workflow):
@@ -84,7 +88,9 @@ def main(workflow):
     if command:
         log.debug("command: " + command.upper())
         if command == 'apps':
-            items = list_apps(workflow)
+            items = execute_list_command(workflow, get_apps)
+        elif command == 'routes':
+            items = execute_list_command(workflow, get_routes)
         elif command == 'set-endpoint':
             setup_endpoint(workflow)
         elif command == 'set-credentials':

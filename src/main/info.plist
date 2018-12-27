@@ -8,6 +8,19 @@
 	<string>Tools</string>
 	<key>connections</key>
 	<dict>
+		<key>42365D29-65A6-42DC-A4D5-3BBCB38D3328</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C0A1EE74-61E3-4827-BC3B-00F976B47E72</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>4C69DAE3-F0EA-48C7-9694-99E8646BB045</key>
 		<array>
 			<dict>
@@ -26,6 +39,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>C0A1EE74-61E3-4827-BC3B-00F976B47E72</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>5BF2EE7C-892B-423F-A2E8-ACA086E21B1A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>42365D29-65A6-42DC-A4D5-3BBCB38D3328</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -179,12 +205,45 @@
 			<key>config</key>
 			<dict>
 				<key>triggerid</key>
+				<string>cf-routes</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.external</string>
+			<key>uid</key>
+			<string>5BF2EE7C-892B-423F-A2E8-ACA086E21B1A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>triggerid</key>
 				<string>cf-apps</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.external</string>
 			<key>uid</key>
 			<string>CFE038E0-B242-45F4-9A3E-DBDF15E7101A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>command</key>
+					<string>routes</string>
+					<key>output</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>42365D29-65A6-42DC-A4D5-3BBCB38D3328</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -304,24 +363,6 @@
 			<key>config</key>
 			<dict>
 				<key>argument</key>
-				<string></string>
-				<key>variables</key>
-				<dict>
-					<key>command</key>
-					<string>cleanup</string>
-				</dict>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
-			<key>uid</key>
-			<string>D317EDA4-2593-4631-96FD-817679A480A3</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argument</key>
 				<string>{query}</string>
 				<key>variables</key>
 				<dict>
@@ -333,6 +374,24 @@
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
 			<string>ECCA2128-2274-4BA9-9AEA-039B745C1246</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>command</key>
+					<string>cleanup</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>D317EDA4-2593-4631-96FD-817679A480A3</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -361,12 +420,12 @@
 			<key>config</key>
 			<dict>
 				<key>triggerid</key>
-				<string>cf-cleanup</string>
+				<string>cf-setendpoint</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.external</string>
 			<key>uid</key>
-			<string>9620BA59-2F89-4878-871E-5996D0DDCCE9</string>
+			<string>60E2AC0A-A0B8-4206-B68A-2E37D9C6CFC9</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -374,12 +433,12 @@
 			<key>config</key>
 			<dict>
 				<key>triggerid</key>
-				<string>cf-setendpoint</string>
+				<string>cf-cleanup</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.external</string>
 			<key>uid</key>
-			<string>60E2AC0A-A0B8-4206-B68A-2E37D9C6CFC9</string>
+			<string>9620BA59-2F89-4878-871E-5996D0DDCCE9</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -440,12 +499,19 @@
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>42365D29-65A6-42DC-A4D5-3BBCB38D3328</key>
+		<dict>
+			<key>xpos</key>
+			<integer>610</integer>
+			<key>ypos</key>
+			<integer>70</integer>
+		</dict>
 		<key>4C69DAE3-F0EA-48C7-9694-99E8646BB045</key>
 		<dict>
 			<key>xpos</key>
-			<integer>320</integer>
+			<integer>290</integer>
 			<key>ypos</key>
-			<integer>300</integer>
+			<integer>210</integer>
 		</dict>
 		<key>5BCBD803-965B-4B2F-8A98-7C06334EB104</key>
 		<dict>
@@ -453,6 +519,13 @@
 			<integer>420</integer>
 			<key>ypos</key>
 			<integer>560</integer>
+		</dict>
+		<key>5BF2EE7C-892B-423F-A2E8-ACA086E21B1A</key>
+		<dict>
+			<key>xpos</key>
+			<integer>810</integer>
+			<key>ypos</key>
+			<integer>10</integer>
 		</dict>
 		<key>60E2AC0A-A0B8-4206-B68A-2E37D9C6CFC9</key>
 		<dict>
@@ -471,9 +544,9 @@
 		<key>9620BA59-2F89-4878-871E-5996D0DDCCE9</key>
 		<dict>
 			<key>xpos</key>
-			<integer>600</integer>
+			<integer>590</integer>
 			<key>ypos</key>
-			<integer>480</integer>
+			<integer>530</integer>
 		</dict>
 		<key>B2BD661E-E3F5-4410-8503-98CB90FF4E7A</key>
 		<dict>
@@ -492,9 +565,9 @@
 		<key>C0A1EE74-61E3-4827-BC3B-00F976B47E72</key>
 		<dict>
 			<key>xpos</key>
-			<integer>620</integer>
+			<integer>720</integer>
 			<key>ypos</key>
-			<integer>170</integer>
+			<integer>160</integer>
 		</dict>
 		<key>CA71D43B-319D-4566-AFF3-D77BC5E07751</key>
 		<dict>
@@ -506,23 +579,23 @@
 		<key>CFE038E0-B242-45F4-9A3E-DBDF15E7101A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>100</integer>
+			<integer>80</integer>
 			<key>ypos</key>
-			<integer>100</integer>
+			<integer>30</integer>
 		</dict>
 		<key>D317EDA4-2593-4631-96FD-817679A480A3</key>
 		<dict>
 			<key>xpos</key>
-			<integer>650</integer>
+			<integer>660</integer>
 			<key>ypos</key>
-			<integer>350</integer>
+			<integer>360</integer>
 		</dict>
 		<key>D3B9E842-79C9-46B2-A62E-948CE83722D0</key>
 		<dict>
 			<key>xpos</key>
-			<integer>100</integer>
+			<integer>90</integer>
 			<key>ypos</key>
-			<integer>270</integer>
+			<integer>180</integer>
 		</dict>
 		<key>ECCA2128-2274-4BA9-9AEA-039B745C1246</key>
 		<dict>
