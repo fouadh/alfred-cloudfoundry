@@ -66,3 +66,22 @@ def get_services(credentials):
             dict(title="You are not identified: please provide your credentials", subtitle="", icon=ICON_ERROR))
 
     return items
+
+
+def get_buildpacks(credentials):
+    try:
+        items = list()
+        manager = build_client(credentials).v2.buildpacks
+
+        for item in manager:
+            items.append(dict(title=item["entity"]["name"], subtitle=item["entity"]["filename"], icon=None))
+
+        if len(items) == 0:
+            items.append(dict(title="No buildpack found", subtitle="", icon=None))
+
+    except BaseException:
+        traceback.print_exc()
+        items.append(
+            dict(title="You are not identified: please provide your credentials", subtitle="", icon=ICON_ERROR))
+
+    return items

@@ -1,56 +1,15 @@
 const { Given, Then, When, Before, BeforeAll } = require('cucumber');
 const rp = require('request-promise');
 const fs = require('fs');
-const runJxa = require('run-jxa');
-const expect = require('chai').expect;
-const waitOn = require('wait-on');
 
-const mtb = 'http://localhost:2525';
-const outputFile = `${__dirname}/../output.json`;
-
-createImposterFromFixture = ((fixtureName) => {
-    const uaa = fs.readFileSync(`./fixtures/${fixtureName}.json`, 'utf-8');
-    return rp.post(`${mtb}/imposters`, { body: uaa });
-});
-
-sleep = (milliseconds) => {
-    return new Promise(resolve=>{
-        setTimeout(resolve,milliseconds)
-    })
-}
-
-setupCloudFoundryEndpoint = () => {
-    return runJxa(() => {
-        const alfred = Application("Alfred 3");
-        alfred.runTrigger("cf-setendpoint", { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": "https://localhost:3001" });
-    });
-}
-
-setupCloudFoundryCredentials = (login, password) => {
-    return runJxa((login, password) => {
-        const alfred = Application("Alfred 3");
-        alfred.runTrigger("cf-setcredentials", { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": `${login} ${password}` });
-    }, [login, password]);
-}
-
-cleanupCloudFoundryConfig = () => {
-    return runJxa(() => {
-        const alfred = Application("Alfred 3");
-        alfred.runTrigger("cf-cleanup", { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry" });
-    });
-}
-
-expectItemInOutput = async (title, subtitle) => {
-    await waitOn({
-        resources: [ `file:${outputFile}` ],
-        timeout: 3000
-    });
-
-    const items = JSON.parse(fs.readFileSync(outputFile, 'utf-8'));
-
-    const data = items.filter((item) => item.title === title && item.subtitle === subtitle);
-    expect(data.length).to.equal(1);
-}
+const { createImposterFromFixture, 
+        sleep, 
+        setupCloudFoundryEndpoint, 
+        cleanupCloudFoundryConfig, 
+        expectItemInOutput, 
+        executeAlfredCommand,
+        mtb,
+        outputFile } = require('./utils');
 
 BeforeAll(async () => {
     await cleanupCloudFoundryConfig();
@@ -91,14 +50,13 @@ Given('one service named roster-service is created on Cloud Foundry', async () =
     await createImposterFromFixture('cf-services-stubs');
 });
 
-executeAlfredCommand = async (user, command) => {
-    await setupCloudFoundryCredentials(`${user}@acme.com`, `${user.toLowerCase()}123`);
-    await sleep(600);
-    await runJxa((outputFile, command) => {
-        const alfred = Application("Alfred 3");
-        alfred.runTrigger(command, { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": outputFile });
-    }, [outputFile, command]);
-}
+Given('no buildpack is available on Cloud Foundry', async () => {
+    await createImposterFromFixture('cf-nobuildpacks-stubs');
+});
+
+Given('buildpacks are installes on Cloud Foundry', async () => {
+    await createImposterFromFixture('cf-buildpacks-stubs');
+});
 
 When(/(.*) wants to list all the apps/, async (user) => {
     await executeAlfredCommand(user, "cf-apps");
@@ -110,6 +68,10 @@ When(/(.*) wants to list all the routes/, async (user) => {
 
 When(/(.*) wants to list all the services/, async (user) => {
     await executeAlfredCommand(user, "cf-services");
+});
+
+When(/(.*) wants to list all the buildpacks/, async (user) => {
+    await executeAlfredCommand(user, "cf-buildpacks");
 });
 
 Then(/the workflow should contain an item with title '(.*)' and no subtitle/, async (title) => {
