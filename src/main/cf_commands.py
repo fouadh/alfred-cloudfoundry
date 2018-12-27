@@ -3,12 +3,16 @@ from workflow import ICON_ERROR
 import traceback
 
 
+def build_client(credentials):
+    client = CloudFoundryClient(credentials["endpoint"], verify=False)
+    client.init_with_user_credentials(credentials["login"], credentials["password"])
+    return client
+
+
 def get_apps(credentials):
     try:
         items = list()
-        client = CloudFoundryClient(credentials["endpoint"], verify=False)
-        client.init_with_user_credentials(credentials["login"], credentials["password"])
-        manager = client.v2.apps
+        manager = build_client(credentials).v2.apps
         size = 0
 
         for item in manager:
@@ -18,7 +22,7 @@ def get_apps(credentials):
         if size == 0:
             items.append(dict(title="No application found", subtitle="", icon=None))
 
-    except BaseException as e:
+    except BaseException:
         traceback.print_exc()
         items.append(
             dict(title="You are not identified: please provide your credentials", subtitle="", icon=ICON_ERROR))

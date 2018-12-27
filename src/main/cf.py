@@ -51,6 +51,7 @@ def setup_credentials(workflow):
         items = list()
         items.append(
             dict(title="You need to provide login and password to this command", subtitle="", icon=ICON_ERROR))
+        return items
     else:
         workflow.settings['cf_login'] = data[0].strip()
         workflow.save_password('cf_password', password=data[1].strip())
@@ -85,11 +86,11 @@ def main(workflow):
         if command == 'apps':
             items = list_apps(workflow)
         elif command == 'set-endpoint':
-            items = setup_endpoint(workflow)
+            setup_endpoint(workflow)
         elif command == 'set-credentials':
             items = setup_credentials(workflow)
         elif command == 'cleanup':
-            items = cleanup(workflow)
+            cleanup(workflow)
 
     if items:
         render_items(workflow, items)
