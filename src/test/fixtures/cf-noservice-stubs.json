@@ -1,0 +1,62 @@
+{
+  "port": "3001",
+  "protocol": "https",
+  "stubs": [
+    {
+      "predicates": [{
+        "contains": {
+          "path": "/v2/services",
+          "method": "GET"
+        }
+      }],
+      "responses": [{
+        "is": {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          "body": {
+            "total_results": 0,
+            "total_pages": 1,
+            "prev_url": null,
+            "next_url": null,
+            "resources": []
+          }
+        }
+      }]
+    },
+    {
+      "predicates": [{
+        "equals": {
+          "path": "/v2/info",
+          "method": "GET"
+        }
+      }],
+      "responses": [{
+        "is": {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          "body": {
+            "name": "vcap",
+            "build": "2222",
+            "support": "http://support.cloudfoundry.com",
+            "version": 2,
+            "description": "Cloud Foundry sponsored by Pivotal",
+            "authorization_endpoint": "http://localhost:4001",
+            "token_endpoint": "http://localhost:4001",
+            "min_cli_version": null,
+            "min_recommended_cli_version": null,
+            "api_version": "2.124.0",
+            "app_ssh_endpoint": "ssh.system.domain.example.com:2222",
+            "app_ssh_host_key_fingerprint": "47:0d:d1:c8:c3:3d:0a:36:d1:49:2f:f2:90:27:31:d0",
+            "app_ssh_oauth_client": null,
+            "routing_endpoint": "http://localhost:3000",
+            "logging_endpoint": "ws://loggregator.vcap.me:80"
+          }
+        }
+      }]
+    }
+  ]
+}

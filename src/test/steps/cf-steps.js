@@ -83,23 +83,34 @@ Given(/one route with host name (.*) is created on Cloud Foundry/, async (host) 
     await createImposterFromFixture('cf-routes-stubs');
 });
 
-When(/(.*) wants to list all the apps/, async (user) => {
+Given('no services is hosted on Cloud Foundry', async () => {
+    await createImposterFromFixture('cf-noservice-stubs');
+});
+
+Given('one service named roster-service is created on Cloud Foundry', async () => {
+    await createImposterFromFixture('cf-services-stubs');
+});
+
+executeAlfredCommand = async (user, command) => {
     await setupCloudFoundryCredentials(`${user}@acme.com`, `${user.toLowerCase()}123`);
     await sleep(600);
-    await runJxa((outputFile) => {
+    await runJxa((outputFile, command) => {
         const alfred = Application("Alfred 3");
-        alfred.runTrigger("cf-apps", { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": outputFile });
-    }, [outputFile]);
+        alfred.runTrigger(command, { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": outputFile });
+    }, [outputFile, command]);
+}
+
+When(/(.*) wants to list all the apps/, async (user) => {
+    await executeAlfredCommand(user, "cf-apps");
 });
 
 When(/(.*) wants to list all the routes/, async (user) => {
-    await setupCloudFoundryCredentials(`${user}@acme.com`, `${user.toLowerCase()}123`);
-    await sleep(600);
-    await runJxa((outputFile) => {
-        const alfred = Application("Alfred 3");
-        alfred.runTrigger("cf-routes", { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": outputFile });
-    }, [outputFile]);
-  });
+    await executeAlfredCommand(user, "cf-routes");
+});
+
+When(/(.*) wants to list all the services/, async (user) => {
+    await executeAlfredCommand(user, "cf-services");
+});
 
 Then(/the workflow should contain an item with title '(.*)' and no subtitle/, async (title) => {
     await expectItemInOutput(title, "");

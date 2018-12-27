@@ -4,7 +4,7 @@
 import sys
 import json
 import os
-from cf_commands import get_apps, get_routes
+from cf_commands import get_apps, get_routes, get_services
 
 from workflow import Workflow3, ICON_ERROR, notify
 
@@ -91,6 +91,8 @@ def main(workflow):
             items = execute_list_command(workflow, get_apps)
         elif command == 'routes':
             items = execute_list_command(workflow, get_routes)
+        elif command == 'services':
+            items = execute_list_command(workflow, get_services)
         elif command == 'set-endpoint':
             setup_endpoint(workflow)
         elif command == 'set-credentials':

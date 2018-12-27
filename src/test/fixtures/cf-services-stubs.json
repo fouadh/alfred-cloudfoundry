@@ -1,0 +1,97 @@
+{
+  "port": "3001",
+  "protocol": "https",
+  "stubs": [
+    {
+      "predicates": [{
+        "contains": {
+          "path": "/v2/services",
+          "method": "GET"
+        }
+      }],
+      "responses": [{
+        "is": {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          "body": {
+            "total_results": 3,
+            "total_pages": 1,
+            "prev_url": null,
+            "next_url": null,
+            "resources": [
+              {
+                "metadata": {
+                  "guid": "1993218f-096d-4216-bf9d-e0f250332dc6",
+                  "url": "/v2/services/1993218f-096d-4216-bf9d-e0f250332dc6",
+                  "created_at": "2016-06-08T16:41:31Z",
+                  "updated_at": "2016-06-08T16:41:26Z"
+                },
+                "entity": {
+                  "label": "roster-service",
+                  "provider": null,
+                  "url": null,
+                  "description": "This is the roster service !!!!",
+                  "long_description": null,
+                  "version": null,
+                  "info_url": null,
+                  "active": true,
+                  "bindable": true,
+                  "unique_id": "4ab67d2e-18c0-4a36-8eed-fdee36fdd61b",
+                  "extra": null,
+                  "tags": [
+          
+                  ],
+                  "requires": [
+          
+                  ],
+                  "documentation_url": null,
+                  "service_broker_guid": "34b94a65-3cd3-4655-8c07-e2bd94ae21c5",
+                  "service_broker_name": "name-1700",
+                  "plan_updateable": false,
+                  "instances_retrievable": false,
+                  "bindings_retrievable": false,
+                  "service_plans_url": "/v2/services/1993218f-096d-4216-bf9d-e0f250332dc6/service_plans"
+                }
+              }
+            ]
+          }
+        }
+      }]
+    },
+    {
+      "predicates": [{
+        "equals": {
+          "path": "/v2/info",
+          "method": "GET"
+        }
+      }],
+      "responses": [{
+        "is": {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          "body": {
+            "name": "vcap",
+            "build": "2222",
+            "support": "http://support.cloudfoundry.com",
+            "version": 2,
+            "description": "Cloud Foundry sponsored by Pivotal",
+            "authorization_endpoint": "http://localhost:4001",
+            "token_endpoint": "http://localhost:4001",
+            "min_cli_version": null,
+            "min_recommended_cli_version": null,
+            "api_version": "2.124.0",
+            "app_ssh_endpoint": "ssh.system.domain.example.com:2222",
+            "app_ssh_host_key_fingerprint": "47:0d:d1:c8:c3:3d:0a:36:d1:49:2f:f2:90:27:31:d0",
+            "app_ssh_oauth_client": null,
+            "routing_endpoint": "http://localhost:3000",
+            "logging_endpoint": "ws://loggregator.vcap.me:80"
+          }
+        }
+      }]
+    }
+  ]
+}

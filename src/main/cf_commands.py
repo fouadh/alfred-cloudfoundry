@@ -47,3 +47,22 @@ def get_routes(credentials):
             dict(title="You are not identified: please provide your credentials", subtitle="", icon=ICON_ERROR))
 
     return items
+
+
+def get_services(credentials):
+    try:
+        items = list()
+        manager = build_client(credentials).v2.services
+
+        for item in manager:
+            items.append(dict(title=item["entity"]["label"], subtitle=item["entity"]["description"], icon=None))
+
+        if len(items) == 0:
+            items.append(dict(title="No service found", subtitle="", icon=None))
+
+    except BaseException:
+        traceback.print_exc()
+        items.append(
+            dict(title="You are not identified: please provide your credentials", subtitle="", icon=ICON_ERROR))
+
+    return items

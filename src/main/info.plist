@@ -138,6 +138,32 @@
 				<false/>
 			</dict>
 		</array>
+		<key>CC444CDF-BDFB-4C6E-8FBD-9B9C32586B71</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C0A1EE74-61E3-4827-BC3B-00F976B47E72</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>CC7B7363-7280-48C6-A512-D7C9F974029F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>CC444CDF-BDFB-4C6E-8FBD-9B9C32586B71</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>CFE038E0-B242-45F4-9A3E-DBDF15E7101A</key>
 		<array>
 			<dict>
@@ -205,6 +231,19 @@
 			<key>config</key>
 			<dict>
 				<key>triggerid</key>
+				<string>cf-services</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.external</string>
+			<key>uid</key>
+			<string>CC7B7363-7280-48C6-A512-D7C9F974029F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>triggerid</key>
 				<string>cf-routes</string>
 			</dict>
 			<key>type</key>
@@ -244,6 +283,26 @@
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
 			<string>42365D29-65A6-42DC-A4D5-3BBCB38D3328</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>command</key>
+					<string>services</string>
+					<key>output</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>CC444CDF-BDFB-4C6E-8FBD-9B9C32586B71</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -575,6 +634,20 @@
 			<integer>50</integer>
 			<key>ypos</key>
 			<integer>770</integer>
+		</dict>
+		<key>CC444CDF-BDFB-4C6E-8FBD-9B9C32586B71</key>
+		<dict>
+			<key>xpos</key>
+			<integer>480</integer>
+			<key>ypos</key>
+			<integer>90</integer>
+		</dict>
+		<key>CC7B7363-7280-48C6-A512-D7C9F974029F</key>
+		<dict>
+			<key>xpos</key>
+			<integer>280</integer>
+			<key>ypos</key>
+			<integer>10</integer>
 		</dict>
 		<key>CFE038E0-B242-45F4-9A3E-DBDF15E7101A</key>
 		<dict>
