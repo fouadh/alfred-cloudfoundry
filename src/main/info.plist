@@ -125,6 +125,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>A2E5D64F-E514-4F4D-ACE1-0878AF3791FA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C0A1EE74-61E3-4827-BC3B-00F976B47E72</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>B2BD661E-E3F5-4410-8503-98CB90FF4E7A</key>
 		<array>
 			<dict>
@@ -221,6 +234,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>4C69DAE3-F0EA-48C7-9694-99E8646BB045</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>DDE34066-26B3-4A8F-9703-0A4F4AB1ECB6</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A2E5D64F-E514-4F4D-ACE1-0878AF3791FA</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -524,7 +550,7 @@
 				<key>variables</key>
 				<dict>
 					<key>command</key>
-					<string>cleanup</string>
+					<string>clear-credentials</string>
 				</dict>
 			</dict>
 			<key>type</key>
@@ -551,12 +577,30 @@
 			<key>config</key>
 			<dict>
 				<key>triggerid</key>
-				<string>cf-cleanup</string>
+				<string>cf-clear-credentials</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.trigger.external</string>
 			<key>uid</key>
 			<string>9620BA59-2F89-4878-871E-5996D0DDCCE9</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>command</key>
+					<string>clear-caches</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>A2E5D64F-E514-4F4D-ACE1-0878AF3791FA</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -575,6 +619,19 @@
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
 			<string>5BCBD803-965B-4B2F-8A98-7C06334EB104</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>triggerid</key>
+				<string>cf-clear-caches</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.external</string>
+			<key>uid</key>
+			<string>DDE34066-26B3-4A8F-9703-0A4F4AB1ECB6</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -680,6 +737,13 @@
 			<key>ypos</key>
 			<integer>150</integer>
 		</dict>
+		<key>A2E5D64F-E514-4F4D-ACE1-0878AF3791FA</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1190</integer>
+			<key>ypos</key>
+			<integer>860</integer>
+		</dict>
 		<key>B2BD661E-E3F5-4410-8503-98CB90FF4E7A</key>
 		<dict>
 			<key>xpos</key>
@@ -742,6 +806,13 @@
 			<integer>160</integer>
 			<key>ypos</key>
 			<integer>530</integer>
+		</dict>
+		<key>DDE34066-26B3-4A8F-9703-0A4F4AB1ECB6</key>
+		<dict>
+			<key>xpos</key>
+			<integer>730</integer>
+			<key>ypos</key>
+			<integer>960</integer>
 		</dict>
 		<key>ECCA2128-2274-4BA9-9AEA-039B745C1246</key>
 		<dict>

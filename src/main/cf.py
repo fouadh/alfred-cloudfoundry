@@ -23,7 +23,7 @@ def render_items(workflow, items):
 
     if external_args:
         log.debug("EXTERNAL ARGS: " + external_args)
-        
+
         args = external_args.split("|")
         output_file = args[0]
         if len(args) > 1:
@@ -33,7 +33,7 @@ def render_items(workflow, items):
         query = workflow.args[0]
 
     if query:
-        items = wf.filter(query, items, search_key_for_item)
+        items = wf.filter(query, items, search_key_for_item, min_score=20)
 
     if output_file:
         with open(output_file, "w") as f:
@@ -45,7 +45,7 @@ def render_items(workflow, items):
     workflow.send_feedback()
 
 
-def findCredentials(workflow):
+def find_credentials(workflow):
     try:
         endpoint = workflow.settings['cf_endpoint']
         login = workflow.settings['cf_login']
@@ -58,14 +58,19 @@ def findCredentials(workflow):
     return None
 
 
-def cleanup(workflow):
+def clear_caches(workflow):
+    workflow.clear_cache()
+    notify.notify(title="Caches have been cleared")
+
+
+def clear_credentials(workflow):
     workflow.settings['cf_endpoint'] = None
     workflow.settings['cf_login'] = None
     try:
         workflow.delete_password('cf_password')
     except BaseException:
         log.debug('Password not found')
-    notify.notify(title="Data cleaned")
+    notify.notify(title="Credentials have been cleared")
 
 
 def setup_credentials(workflow):
@@ -97,9 +102,12 @@ def buildNoCredentialsMessage():
 
 
 def execute_list_command(workflow, command):
-    credentials = findCredentials(workflow)
-    if credentials:
+    def execution_wrapper():
         return execute(command, credentials)
+
+    credentials = find_credentials(workflow)
+    if credentials:
+        return workflow.cached_data(command, execution_wrapper, max_age=15)
     else:
         return buildNoCredentialsMessage()
 
@@ -115,8 +123,10 @@ def main(workflow):
             setup_endpoint(workflow)
         elif command == 'set-credentials':
             items = setup_credentials(workflow)
-        elif command == 'cleanup':
-            cleanup(workflow)
+        elif command == 'clear-caches':
+            clear_caches(workflow)
+        elif command == 'clear-credentials':
+            clear_credentials(workflow)
         elif can_execute(command):
             items = execute_list_command(workflow, command)
     else:

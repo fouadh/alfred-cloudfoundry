@@ -6,6 +6,7 @@ const { createImposterFromFixture,
         sleep, 
         setupCloudFoundryEndpoint, 
         cleanupCloudFoundryConfig, 
+        clearCaches,
         expectItemInOutput,
         expectTotalItems,
         executeAlfredCommand,
@@ -21,6 +22,8 @@ BeforeAll(async () => {
 
 Before(async () => {
     await rp.delete(`${mtb}/imposters`);
+    await clearCaches();
+    await sleep(500);
     await createImposterFromFixture('uaa-stubs');
     if (fs.existsSync(outputFile)) {
         fs.unlinkSync(outputFile);

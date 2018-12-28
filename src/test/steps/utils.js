@@ -38,7 +38,14 @@ setupCloudFoundryCredentials = (login, password) => {
 exports.cleanupCloudFoundryConfig = () => {
   return runJxa(() => {
       const alfred = Application("Alfred 3");
-      alfred.runTrigger("cf-cleanup", { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry" });
+      alfred.runTrigger("cf-clear-credentials", { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry" });
+  });
+}
+
+exports.clearCaches = () => {
+  return runJxa(() => {
+      const alfred = Application("Alfred 3");
+      alfred.runTrigger("cf-clear-caches", { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry" });
   });
 }
 
