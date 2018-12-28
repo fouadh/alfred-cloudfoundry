@@ -9,19 +9,17 @@ def build_client(credentials):
     return client
 
 
-def execute_list_command(credentials, type, managerLambda, itemBuilder):
+def execute_list_command(credentials, resource_type, get_manager, item_builder):
     try:
         items = list()
         client = build_client(credentials)
-        manager = managerLambda(client)
-        size = 0
+        manager = get_manager(client)
 
         for item in manager:
-            items.append(itemBuilder(item))
-            size = size + 1
+            items.append(item_builder(item))
 
-        if size == 0:
-            items.append(dict(title="No " + type + " found", subtitle="", icon=None))
+        if len(items) == 0:
+            items.append(dict(title="No " + resource_type + " found", subtitle="", icon=None))
 
     except BaseException:
         traceback.print_exc()
@@ -71,6 +69,10 @@ def get_service_brokers(credentials):
                                 lambda item: dict(title=item["entity"]["name"], subtitle="",
                                                   icon=None))
 
+def get_shared_domains(credentials):
+    return execute_list_command(credentials, 'service broker', lambda client: client.v2.shared_domains,
+                                lambda item: dict(title=item["entity"]["name"], subtitle="",
+                                                  icon=None))
 
 def get_service_instances(credentials):
     return execute_list_command(credentials, 'service instance', lambda client: client.v2.service_instances,

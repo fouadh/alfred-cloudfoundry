@@ -11,14 +11,37 @@ from workflow import Workflow3, ICON_ERROR, notify
 log = None
 
 
+def search_key_for_item(item):
+    elements = [item['title'], item['subtitle']]
+    return u' '.join(elements)
+
+
 def render_items(workflow, items):
-    output_file = os.getenv('output')
+    external_args = os.getenv('external-args')
+    query = None
+    output_file = None
+
+    if external_args:
+        log.debug("EXTERNAL ARGS: " + external_args)
+        
+        args = external_args.split("|")
+        output_file = args[0]
+        if len(args) > 1:
+            query = args[1]
+
+    elif len(workflow.args):
+        query = workflow.args[0]
+
+    if query:
+        items = wf.filter(query, items, search_key_for_item)
+
     if output_file:
         with open(output_file, "w") as f:
             f.write(json.dumps(items))
 
     for item in items:
         workflow.add_item(title=item["title"], subtitle=item["subtitle"], icon=item["icon"])
+
     workflow.send_feedback()
 
 
@@ -84,16 +107,20 @@ def execute_list_command(workflow, command):
 def main(workflow):
     items = None
     command = os.getenv('command')
+    log.debug("ARGS: " + str(workflow.args))
 
     if command:
-        if can_execute(command):
-            items = execute_list_command(workflow, command)
-        elif command == 'set-endpoint':
+        log.debug("COMMAND: " + command.upper())
+        if command == 'set-endpoint':
             setup_endpoint(workflow)
         elif command == 'set-credentials':
             items = setup_credentials(workflow)
         elif command == 'cleanup':
             cleanup(workflow)
+        elif can_execute(command):
+            items = execute_list_command(workflow, command)
+    else:
+        log.debug("NO COMMAND")
 
     if items:
         render_items(workflow, items)

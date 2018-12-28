@@ -257,6 +257,19 @@
 			<key>config</key>
 			<dict>
 				<key>triggerid</key>
+				<string>cf-routes</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.external</string>
+			<key>uid</key>
+			<string>5BF2EE7C-892B-423F-A2E8-ACA086E21B1A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>triggerid</key>
 				<string>cf-buildpacks</string>
 			</dict>
 			<key>type</key>
@@ -275,7 +288,7 @@
 				<dict>
 					<key>command</key>
 					<string>routes</string>
-					<key>output</key>
+					<key>external-args</key>
 					<string>{query}</string>
 				</dict>
 			</dict>
@@ -295,7 +308,7 @@
 				<dict>
 					<key>command</key>
 					<string>buildpacks</string>
-					<key>output</key>
+					<key>external-args</key>
 					<string>{query}</string>
 				</dict>
 			</dict>
@@ -323,19 +336,6 @@
 			<key>config</key>
 			<dict>
 				<key>triggerid</key>
-				<string>cf-routes</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.external</string>
-			<key>uid</key>
-			<string>5BF2EE7C-892B-423F-A2E8-ACA086E21B1A</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>triggerid</key>
 				<string>cf-apps</string>
 			</dict>
 			<key>type</key>
@@ -354,7 +354,7 @@
 				<dict>
 					<key>command</key>
 					<string>services</string>
-					<key>output</key>
+					<key>external-args</key>
 					<string>{query}</string>
 				</dict>
 			</dict>
@@ -374,7 +374,7 @@
 				<dict>
 					<key>command</key>
 					<string>apps</string>
-					<key>output</key>
+					<key>external-args</key>
 					<string>{query}</string>
 				</dict>
 			</dict>
@@ -382,6 +382,53 @@
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
 			<string>B8233E5D-9805-4534-8079-6E9EBBACAED7</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<false/>
+				<key>items</key>
+				<string>[{"title":"Cloud Foundry Applications","arg":"apps"},{"title":"Cloud Foundry Services","arg":"services"},{"title":"Cloud Foundry Routes","arg":"routes"},{"title":"Cloud Foundry Domains","arg":"domains"},{"title":"Cloud Foundry Marketplace","arg":"marketplace"},{"title":"Cloud Foundry Plugins","arg":"plugins"},{"title":"Cloud Foundry Buildpacks","arg":"buildpacks"},{"title":"Cloud Foundry Service Bindings","arg":"service-bindings"},{"title":"Cloud Foundry Service Brokers","arg":"service-brokers"},{"title":"Cloud Foundry Service Instances","arg":"service-instances"},{"title":"Cloud Foundry Spaces","arg":"spaces"},{"title":"Cloud Foundry Service Keys","arg":"service-keys"},{"title":"Cloud Foundry Service Plans","arg":"service-plans"},{"title":"Cloud Foundry User Provided Instances","arg":"cups"},{"title":"Cloud Foundry Stacks","arg":"stacks"},{"title":"Cloud Foundry Organizations","arg":"organizations"},{"title":"Cloud Foundry Shared Domains","arg":"shared-domains"}]</string>
+				<key>keyword</key>
+				<string>cf</string>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Cloud Foundry</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>D3B9E842-79C9-46B2-A62E-948CE83722D0</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>command</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>4C69DAE3-F0EA-48C7-9694-99E8646BB045</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -429,53 +476,6 @@
 			<string>C0A1EE74-61E3-4827-BC3B-00F976B47E72</string>
 			<key>version</key>
 			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>fixedorder</key>
-				<false/>
-				<key>items</key>
-				<string>[{"title":"Cloud Foundry Applications","arg":"apps"},{"title":"Cloud Foundry Services","arg":"services"},{"title":"Cloud Foundry Routes","arg":"routes"},{"title":"Cloud Foundry Domains","arg":"domains"},{"title":"Cloud Foundry Marketplace","arg":"marketplace"},{"title":"Cloud Foundry Plugins","arg":"plugins"},{"title":"Cloud Foundry Buildpacks","arg":"buildpacks"},{"title":"Cloud Foundry Service Bindings","arg":"service-bindings"},{"title":"Cloud Foundry Service Brokers","arg":"service-brokers"},{"title":"Cloud Foundry Service Instances","arg":"service-instances"},{"title":"Cloud Foundry Spaces","arg":"spaces"},{"title":"Cloud Foundry Service Keys","arg":"service-keys"},{"title":"Cloud Foundry Service Plans","arg":"service-plans"},{"title":"Cloud Foundry User Provided Instances","arg":"cups"},{"title":"Cloud Foundry Stacks","arg":"stacks"},{"title":"Cloud Foundry Organizations","arg":"organizations"}]</string>
-				<key>keyword</key>
-				<string>cf</string>
-				<key>runningsubtext</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>Cloud Foundry</string>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.listfilter</string>
-			<key>uid</key>
-			<string>D3B9E842-79C9-46B2-A62E-948CE83722D0</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argument</key>
-				<string></string>
-				<key>variables</key>
-				<dict>
-					<key>command</key>
-					<string>{query}</string>
-				</dict>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
-			<key>uid</key>
-			<string>4C69DAE3-F0EA-48C7-9694-99E8646BB045</string>
-			<key>version</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -620,135 +620,135 @@
 		<key>42365D29-65A6-42DC-A4D5-3BBCB38D3328</key>
 		<dict>
 			<key>xpos</key>
-			<integer>710</integer>
+			<integer>740</integer>
 			<key>ypos</key>
-			<integer>100</integer>
+			<integer>190</integer>
 		</dict>
 		<key>4C69DAE3-F0EA-48C7-9694-99E8646BB045</key>
 		<dict>
 			<key>xpos</key>
-			<integer>330</integer>
+			<integer>360</integer>
 			<key>ypos</key>
-			<integer>470</integer>
+			<integer>560</integer>
 		</dict>
 		<key>5BCBD803-965B-4B2F-8A98-7C06334EB104</key>
 		<dict>
 			<key>xpos</key>
-			<integer>460</integer>
+			<integer>490</integer>
 			<key>ypos</key>
-			<integer>820</integer>
+			<integer>910</integer>
 		</dict>
 		<key>5BF2EE7C-892B-423F-A2E8-ACA086E21B1A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>850</integer>
+			<integer>550</integer>
 			<key>ypos</key>
-			<integer>270</integer>
+			<integer>100</integer>
 		</dict>
 		<key>60E2AC0A-A0B8-4206-B68A-2E37D9C6CFC9</key>
 		<dict>
 			<key>xpos</key>
-			<integer>90</integer>
+			<integer>50</integer>
 			<key>ypos</key>
-			<integer>780</integer>
+			<integer>790</integer>
 		</dict>
 		<key>6D9AD98E-CF0F-4614-B066-BF03A36441F1</key>
 		<dict>
 			<key>xpos</key>
-			<integer>130</integer>
+			<integer>60</integer>
 			<key>ypos</key>
-			<integer>590</integer>
+			<integer>670</integer>
 		</dict>
 		<key>9620BA59-2F89-4878-871E-5996D0DDCCE9</key>
 		<dict>
 			<key>xpos</key>
-			<integer>630</integer>
+			<integer>460</integer>
 			<key>ypos</key>
-			<integer>790</integer>
+			<integer>800</integer>
 		</dict>
 		<key>987A45F6-FAC3-4274-B1E1-3037CDF5ED16</key>
 		<dict>
 			<key>xpos</key>
-			<integer>530</integer>
+			<integer>560</integer>
 			<key>ypos</key>
-			<integer>160</integer>
+			<integer>250</integer>
 		</dict>
 		<key>A1E8AC74-799C-4AFE-9216-5FA540BCD4BB</key>
 		<dict>
 			<key>xpos</key>
-			<integer>320</integer>
+			<integer>350</integer>
 			<key>ypos</key>
-			<integer>60</integer>
+			<integer>150</integer>
 		</dict>
 		<key>B2BD661E-E3F5-4410-8503-98CB90FF4E7A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>90</integer>
+			<integer>120</integer>
 			<key>ypos</key>
-			<integer>910</integer>
+			<integer>1000</integer>
 		</dict>
 		<key>B8233E5D-9805-4534-8079-6E9EBBACAED7</key>
 		<dict>
 			<key>xpos</key>
-			<integer>360</integer>
-			<key>ypos</key>
 			<integer>390</integer>
+			<key>ypos</key>
+			<integer>480</integer>
 		</dict>
 		<key>C0A1EE74-61E3-4827-BC3B-00F976B47E72</key>
 		<dict>
 			<key>xpos</key>
-			<integer>760</integer>
+			<integer>1550</integer>
 			<key>ypos</key>
-			<integer>420</integer>
+			<integer>620</integer>
 		</dict>
 		<key>CA71D43B-319D-4566-AFF3-D77BC5E07751</key>
 		<dict>
 			<key>xpos</key>
-			<integer>90</integer>
+			<integer>120</integer>
 			<key>ypos</key>
-			<integer>1030</integer>
+			<integer>1120</integer>
 		</dict>
 		<key>CC444CDF-BDFB-4C6E-8FBD-9B9C32586B71</key>
 		<dict>
 			<key>xpos</key>
-			<integer>520</integer>
+			<integer>550</integer>
 			<key>ypos</key>
-			<integer>350</integer>
+			<integer>440</integer>
 		</dict>
 		<key>CC7B7363-7280-48C6-A512-D7C9F974029F</key>
 		<dict>
 			<key>xpos</key>
-			<integer>320</integer>
+			<integer>350</integer>
 			<key>ypos</key>
-			<integer>270</integer>
+			<integer>360</integer>
 		</dict>
 		<key>CFE038E0-B242-45F4-9A3E-DBDF15E7101A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>120</integer>
+			<integer>150</integer>
 			<key>ypos</key>
-			<integer>290</integer>
+			<integer>380</integer>
 		</dict>
 		<key>D317EDA4-2593-4631-96FD-817679A480A3</key>
 		<dict>
 			<key>xpos</key>
-			<integer>700</integer>
+			<integer>730</integer>
 			<key>ypos</key>
-			<integer>620</integer>
+			<integer>710</integer>
 		</dict>
 		<key>D3B9E842-79C9-46B2-A62E-948CE83722D0</key>
 		<dict>
 			<key>xpos</key>
-			<integer>130</integer>
+			<integer>160</integer>
 			<key>ypos</key>
-			<integer>440</integer>
+			<integer>530</integer>
 		</dict>
 		<key>ECCA2128-2274-4BA9-9AEA-039B745C1246</key>
 		<dict>
 			<key>xpos</key>
-			<integer>460</integer>
+			<integer>490</integer>
 			<key>ypos</key>
-			<integer>620</integer>
+			<integer>710</integer>
 		</dict>
 	</dict>
 	<key>webaddress</key>

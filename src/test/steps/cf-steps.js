@@ -6,7 +6,8 @@ const { createImposterFromFixture,
         sleep, 
         setupCloudFoundryEndpoint, 
         cleanupCloudFoundryConfig, 
-        expectItemInOutput, 
+        expectItemInOutput,
+        expectTotalItems,
         executeAlfredCommand,
         mtb,
         outputFile } = require('./utils');
@@ -62,6 +63,10 @@ When(/(.*) wants to list all the apps/, async (user) => {
     await executeAlfredCommand(user, "cf-apps");
 });
 
+When(/(.*) wants to filter all the apps with the string '(.*)'/, async (user, query) => {
+    await executeAlfredCommand(user, "cf-apps", query);
+});
+
 When(/(.*) wants to list all the routes/, async (user) => {
     await executeAlfredCommand(user, "cf-routes");
 });
@@ -80,4 +85,8 @@ Then(/the workflow should contain an item with title '(.*)' and no subtitle/, as
 
 Then(/the workflow should contain an item with title '(.*)' and subtitle '(.*)'/, async (title, subtitle) => {
     await expectItemInOutput(title, subtitle);
+});
+
+Then(/the number of items should be (\d+)/, async (size) => {
+    await expectTotalItems(size);
 });

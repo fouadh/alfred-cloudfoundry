@@ -18,3 +18,11 @@ Feature: Listing applications hosted in Cloud Foundry
     When Alice wants to list all the apps
     Then the workflow should contain an item with title 'roster' and subtitle 'STARTED'
 
+
+  Scenario: Applications can be filtered by their name
+
+    Given one application named roster is started on Cloud Foundry
+    When Alice wants to filter all the apps with the string 'roster'
+    Then the workflow should contain an item with title 'roster' and subtitle 'STARTED'
+    And the number of items should be 1
+

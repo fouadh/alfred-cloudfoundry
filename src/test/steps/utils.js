@@ -42,6 +42,16 @@ exports.cleanupCloudFoundryConfig = () => {
   });
 }
 
+exports.expectTotalItems = async (size) => {
+  await waitOn({
+      resources: [ `file:${outputFile}` ],
+      timeout: 3000
+  });
+
+  const items = JSON.parse(fs.readFileSync(outputFile, 'utf-8'));
+  expect(items.length).to.equal(size);
+}
+
 exports.expectItemInOutput = async (title, subtitle) => {
   await waitOn({
       resources: [ `file:${outputFile}` ],
@@ -53,11 +63,13 @@ exports.expectItemInOutput = async (title, subtitle) => {
   expect(data.length).to.equal(1);
 }
 
-exports.executeAlfredCommand = async (user, command) => {
+exports.executeAlfredCommand = async (user, command, query) => {
   await setupCloudFoundryCredentials(`${user}@acme.com`, `${user.toLowerCase()}123`);
   await exports.sleep(600);
-  await runJxa((outputFile, command) => {
+  await runJxa((outputFile, command, query) => {
       const alfred = Application("Alfred 3");
-      alfred.runTrigger(command, { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": outputFile });
-  }, [outputFile, command]);
+      let arguments = outputFile;
+      if (query) arguments = `${arguments}|${query}`
+      alfred.runTrigger(command, { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": arguments });
+  }, [outputFile, command, query]);
 }
