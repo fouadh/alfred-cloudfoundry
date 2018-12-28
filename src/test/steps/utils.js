@@ -1,19 +1,24 @@
+const util = require('util');
 const fs = require('fs');
+const readFile = util.promisify(fs.readFile);
 const rp = require('request-promise');
 const runJxa = require('run-jxa');
-const expect = require('chai').expect;
-const waitOn = require('wait-on');
+const chai = require('chai');
+const chaiAsPromised = require("chai-as-promised");
+chai.should();
+chai.use(chaiAsPromised);
 
+const waitOn = require('wait-on');
 const mtb = 'http://localhost:2525';
 const outputFile = `${__dirname}/../output.json`;
 
 exports.mtb = mtb;
 exports.outputFile = outputFile;
 
-exports.createImposterFromFixture = ((fixtureName) => {
-  const uaa = fs.readFileSync(`./fixtures/${fixtureName}.json`, 'utf-8');
-  return rp.post(`${mtb}/imposters`, { body: uaa });
-});
+exports.createImposterFromFixture = (fixtureName) => {
+  return readFile(`./fixtures/${fixtureName}.json`, 'utf-8')
+    .then((data) => rp.post(`${mtb}/imposters`, { body: data }));
+};
 
 exports.sleep = (milliseconds) => {
   return new Promise(resolve=>{
@@ -49,34 +54,40 @@ exports.clearCaches = () => {
   });
 }
 
-exports.expectTotalItems = async (size) => {
-  await waitOn({
-      resources: [ `file:${outputFile}` ],
-      timeout: 3000
-  });
-
-  const items = JSON.parse(fs.readFileSync(outputFile, 'utf-8'));
-  expect(items.length).to.equal(size);
+exports.expectTotalItems = (size) => {
+  return readOutputFile()
+      .then(items => items.length)
+      .should.eventually.equal(size);
 }
 
-exports.expectItemInOutput = async (title, subtitle) => {
-  await waitOn({
-      resources: [ `file:${outputFile}` ],
-      timeout: 3000
-  });
-
-  const items = JSON.parse(fs.readFileSync(outputFile, 'utf-8'));
-  const data = items.filter((item) => item.title === title && item.subtitle === subtitle);
-  expect(data.length).to.equal(1);
+exports.expectItemInOutput = (title, subtitle) => {
+  return readOutputFile()
+            .then((items) => filterByTitleAndSubtitle(items, title, subtitle))
+            .then(data => data.length)
+            .should.eventually.equal(1);
 }
 
-exports.executeAlfredCommand = async (user, command, query) => {
-  await setupCloudFoundryCredentials(`${user}@acme.com`, `${user.toLowerCase()}123`);
-  await exports.sleep(600);
-  await runJxa((outputFile, command, query) => {
-      const alfred = Application("Alfred 3");
-      let arguments = outputFile;
-      if (query) arguments = `${arguments}|${query}`
-      alfred.runTrigger(command, { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": arguments });
-  }, [outputFile, command, query]);
+filterByTitleAndSubtitle = (items, title, subtitle) => {
+  return items.filter((item) => item.title === title && item.subtitle === subtitle);
+}
+
+readOutputFile = () => {
+  return waitOn({
+    resources: [ `file:${outputFile}` ],
+    timeout: 3000
+  }).then(() => readFile(outputFile, 'utf-8'))
+    .then((contents) => JSON.parse(contents)); 
+}
+
+exports.executeAlfredCommand = (user, command, query) => {
+  return setupCloudFoundryCredentials(`${user}@acme.com`, `${user.toLowerCase()}123`)
+    .then(() => exports.sleep(600))
+    .then(() => runJxa(callAlfred, [outputFile, command, query]));
+}
+
+callAlfred = (outputFile, command, query) => {
+  const alfred = Application("Alfred 3");
+  let arguments = outputFile;
+  if (query) arguments = `${arguments}|${query}`
+  alfred.runTrigger(command, { "inWorkflow": "com.fouadhamdi.alfred.cloudfoundry", "withArgument": arguments });
 }

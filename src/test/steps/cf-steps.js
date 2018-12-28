@@ -30,66 +30,30 @@ Before(async () => {
     };
 });
 
-Given('no application is hosted on Cloud Foundry', async () => {
-    await createImposterFromFixture('cf-noapp-stubs');
+Given(/no (.*) is hosted on Cloud Foundry/, (resource) => {
+    return createImposterFromFixture(`cf-no-${resource}-stubs`);
 });
 
-Given(/one application named (.*) is started on Cloud Foundry/, async (appName) => {
-    await createImposterFromFixture('cf-apps-stubs');
+Given(/one (.*) named (.*) is hosted on Cloud Foundry/, (resource, appName) => {
+    return createImposterFromFixture(`cf-${resource}s-stubs`);
 });
 
-Given('no route is hosted on Cloud Foundry', async () => {
-    await createImposterFromFixture('cf-noroute-stubs');
+When(/(.*) wants to list all the (.*)/, (user, resource) => {
+    return executeAlfredCommand(user, `cf-${resource}`);
 });
 
-Given(/one route with host name (.*) is created on Cloud Foundry/, async (host) => {
-    await createImposterFromFixture('cf-routes-stubs');
+When(/(.*) wants to filter all the (.*) with the string '(.*)'/, (user, resource, query) => {
+    return executeAlfredCommand(user, `cf-${resource}`, query);
 });
 
-Given('no services is hosted on Cloud Foundry', async () => {
-    await createImposterFromFixture('cf-noservice-stubs');
+Then(/the workflow should contain an item with title '(.*)' and no subtitle/, (title) => {
+    return expectItemInOutput(title, "");
 });
 
-Given('one service named roster-service is created on Cloud Foundry', async () => {
-    await createImposterFromFixture('cf-services-stubs');
+Then(/the workflow should contain an item with title '(.*)' and subtitle '(.*)'/, (title, subtitle) => {
+    return expectItemInOutput(title, subtitle);
 });
 
-Given('no buildpack is available on Cloud Foundry', async () => {
-    await createImposterFromFixture('cf-nobuildpacks-stubs');
-});
-
-Given('buildpacks are installes on Cloud Foundry', async () => {
-    await createImposterFromFixture('cf-buildpacks-stubs');
-});
-
-When(/(.*) wants to list all the apps/, async (user) => {
-    await executeAlfredCommand(user, "cf-apps");
-});
-
-When(/(.*) wants to filter all the apps with the string '(.*)'/, async (user, query) => {
-    await executeAlfredCommand(user, "cf-apps", query);
-});
-
-When(/(.*) wants to list all the routes/, async (user) => {
-    await executeAlfredCommand(user, "cf-routes");
-});
-
-When(/(.*) wants to list all the services/, async (user) => {
-    await executeAlfredCommand(user, "cf-services");
-});
-
-When(/(.*) wants to list all the buildpacks/, async (user) => {
-    await executeAlfredCommand(user, "cf-buildpacks");
-});
-
-Then(/the workflow should contain an item with title '(.*)' and no subtitle/, async (title) => {
-    await expectItemInOutput(title, "");
-});
-
-Then(/the workflow should contain an item with title '(.*)' and subtitle '(.*)'/, async (title, subtitle) => {
-    await expectItemInOutput(title, subtitle);
-});
-
-Then(/the number of items should be (\d+)/, async (size) => {
-    await expectTotalItems(size);
+Then(/the number of items should be (\d+)/, (size) => {
+    return expectTotalItems(size);
 });
