@@ -7,7 +7,7 @@ Note that *version 2* of the API is used by this workflow.
 
 # To start
 
-1. Download and install [Cloud-Foundry.alfredworkflow]()
+1. Download and install [Cloud-Foundry.alfred3workflow](Cloud-Foundry-0.1.0.alfred3workflow)
 
 2. Configure the endpoint and your Cloud Foundry credentials (see in the **How to use** section)
 
