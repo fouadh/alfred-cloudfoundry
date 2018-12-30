@@ -37,11 +37,17 @@ Type cf to get a list of all the available commands.
 
 - List routes
 
+![image](./doc/images/cf-routes.gif)
+
 - List services
+
+![image](./doc/images/cf-services.gif)
 
 - List services plans
 
 - List services instances
+
+![image](./doc/images/cf-services-instances.gif)
 
 - List services bindings
 
@@ -50,6 +56,8 @@ Type cf to get a list of all the available commands.
 - List private domains
 
 - List spaces
+
+![image](./doc/images/cf-spaces.gif)
 
 - List organizations
 
