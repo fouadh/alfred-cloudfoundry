@@ -10,7 +10,18 @@ from workflow import Workflow3, ICON_ERROR, ICON_INFO, notify, PasswordNotFound
 from workflow.background import run_in_background, is_running
 
 log = None
-cache_max_age = 15
+
+# Age of the cache of items in seconds
+CACHE_MAX_AGE = 15
+
+# Icon for workflow update availability
+ICON_UPDATE = 'update_available.png'
+
+# GitHub repo for self-updating
+UPDATE_SETTINGS = {'github_slug': 'fouadh/alfred-cloudfoundry', 'frequency': 1}
+
+# GitHub Issues
+HELP_URL = 'https://github.com/fouadh/alfred-cloudfoundry/issues'
 
 
 def search_key_for_item(item):
@@ -104,7 +115,7 @@ def do_execute(workflow):
 
 def get_items(workflow, command):
     # Load data, update if necessary
-    if not workflow.cached_data_fresh(command, max_age=cache_max_age):
+    if not workflow.cached_data_fresh(command, max_age=CACHE_MAX_AGE):
         do_execute(workflow)
         return []
 
@@ -137,6 +148,10 @@ commands = {
 
 
 def main(workflow):
+    if workflow.update_available:
+        workflow.start_update()
+        return 0
+
     items = None
     command = os.getenv('command')
     log.debug("ARGS: " + str(workflow.args))
@@ -159,6 +174,7 @@ def main(workflow):
 
 
 if __name__ == '__main__':
-    wf = Workflow3()
+    wf = Workflow3(update_settings=UPDATE_SETTINGS,
+                   help_url=HELP_URL)
     log = wf.logger
     sys.exit(wf.run(main))
