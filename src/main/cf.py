@@ -149,8 +149,8 @@ commands = {
 
 def main(workflow):
     if workflow.update_available:
+        log.info("Downloading new version of the workflow...")
         workflow.start_update()
-        return 0
 
     items = None
     command = os.getenv('command')

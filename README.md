@@ -15,6 +15,8 @@ Note that *version 2* of the API is used by this workflow.
 
 # How to use
 
+Type cf to get a list of all the available commands.
+
 - Setup Cloud Foundry endpoint
 
 ```
@@ -35,13 +37,19 @@ Note that *version 2* of the API is used by this workflow.
 
 - List services
 
+- List services plans
+
 - List services instances
 
 - List services bindings
 
 - List shared domains
 
+- List private domains
+
 - List spaces
+
+- List organizations
 
 - List stacks
 

@@ -51,6 +51,11 @@ commands:
     manager: shared_domains
     title: name
 
+  - name: private-domains
+    resource: private domain
+    manager: private_domains
+    title: name
+
   - name: service-instances
     resource: service instance
     manager: service_instances
