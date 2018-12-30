@@ -671,7 +671,11 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>
+	This workflow allows the execution of some Cloud Foundry commands. Configure your credentials and endpoint, then enjoy !
+
+	Help and info: https://github.com/fouadh/alfred-cloudfoundry
+	</string>
 	<key>uidata</key>
 	<dict>
 		<key>42365D29-65A6-42DC-A4D5-3BBCB38D3328</key>
