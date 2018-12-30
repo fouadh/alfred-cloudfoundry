@@ -35,7 +35,7 @@ def render_items(workflow, items):
     if query:
         items = wf.filter(query, items, search_key_for_item, min_score=20)
 
-    items = sorted(items, key=lambda k: k['title'], reverse=True)
+    items = sorted(items, key=lambda k: k['title'])
 
     if output_file:
         with open(output_file, "w") as f:
@@ -105,7 +105,7 @@ def buildNoCredentialsMessage():
 
 def execute_list_command(workflow, command):
     def execution_wrapper():
-        return execute(command, credentials, log)
+        return execute(command, credentials)
 
     credentials = find_credentials(workflow)
     if credentials:

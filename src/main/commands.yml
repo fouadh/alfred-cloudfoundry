@@ -1,0 +1,74 @@
+commands:
+  - name: apps
+    resource: application
+    manager: apps
+    title: name
+    subtitle: state
+
+  - name: routes
+    resource: route
+    manager: routes
+    title: host
+
+  - name: services
+    resource: service
+    manager: services
+    title: label
+    subtitle: description
+
+  - name: service-plans
+    resource: service plan
+    manager: service_plans
+    title: name
+    subtitle: description
+
+  - name: buildpacks
+    resource: buildpack
+    manager: buildpacks
+    title: name
+    subtitle: filename
+
+  - name: service-bindings
+    resource: service binding
+    manager: service_bindings
+    title: name
+
+  - name: service-brokers
+    resource: service broker
+    manager: service_brokers
+    title: name
+
+  - name: shared-domains
+    resource: shared domain
+    manager: shared_domains
+    title: name
+
+  - name: service-instances
+    resource: service instance
+    manager: service_instances
+    title: name
+
+  - name: spaces
+    resource: space
+    manager: spaces
+    title: name
+
+  - name: service-keys
+    resource: service key
+    manager: service_keys
+    title: name
+
+  - name: stacks
+    resource: stack
+    manager: stacks
+    title: name
+
+  - name: organizations
+    resource: organization
+    manager: organizations
+    title: name
+
+  - name: ups
+    resource: user provided instance
+    manager: user_provided_service_instances
+    title: name

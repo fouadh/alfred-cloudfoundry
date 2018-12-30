@@ -1,129 +1,92 @@
 from cloudfoundry_client.client import CloudFoundryClient
 from workflow import ICON_ERROR
 import traceback
+import yaml
 
 
-def build_client(credentials):
-    client = CloudFoundryClient(credentials["endpoint"], verify=False)
-    client.init_with_user_credentials(credentials["login"], credentials["password"])
-    return client
+class Command:
+    def __init__(self, resource_type, manager_getter, item_builder):
+        self.manager_getter = manager_getter
+        self.item_builder = item_builder
+        self.resource_type = resource_type
+
+    @staticmethod
+    def __build_client(credentials):
+        client = CloudFoundryClient(credentials["endpoint"], verify=False)
+        client.init_with_user_credentials(credentials["login"], credentials["password"])
+        return client
+
+    def execute(self, credentials):
+        try:
+            items = list()
+            client = self.__build_client(credentials)
+            manager = self.manager_getter(client)
+
+            for resource in manager:
+                item = self.item_builder(resource)
+
+                if item['subtitle'] is None:
+                    item['subtitle'] = ''
+
+                items.append(item)
+
+            if len(items) == 0:
+                items.append(dict(title="No " + self.resource_type + " found", subtitle="", icon=None))
+
+        except BaseException as e:
+            traceback.print_exc()
+            items.append(
+                dict(title="The command cannot be executed", subtitle=str(e), icon=ICON_ERROR))
+
+        return items
 
 
-def execute_list_command(credentials, resource_type, get_manager, item_builder, log):
-    try:
-        items = list()
-        client = build_client(credentials)
-        manager = get_manager(client)
+class CommandManager:
 
-        if log:
-            log.debug("--> MANAGER: " + str(manager))
+    def __init__(self):
+        self.commands = self.__load_commands()
 
-        for item in manager:
-            items.append(item_builder(item))
+    def can_execute(self, command):
+        return self.commands[command]
 
-        if len(items) == 0:
-            items.append(dict(title="No " + resource_type + " found", subtitle="", icon=None))
+    def execute(self, command, credentials):
+        return self.commands[command].execute(credentials)
 
-    except BaseException as e:
-        traceback.print_exc()
-        items.append(
-            dict(title="The command cannot be executed", subtitle=str(e), icon=ICON_ERROR))
+    @staticmethod
+    def __get_entity_property(resource, name):
+        if name:
+            return resource["entity"][name]
+        else:
+            return None
 
-    return items
+    def __build_command(self, resource_type, manager, title_property, subtitle_property):
+        return Command(resource_type, lambda client: vars(client.v2)[manager],
+                       lambda item: dict(title=self.__get_entity_property(item, title_property),
+                                         subtitle=self.__get_entity_property(item, subtitle_property),
+                                         icon=None))
 
+    def __build_command_from_item(self, item):
+        if ('subtitle' in item) is False:
+            item['subtitle'] = None
 
-def get_apps(credentials, log):
-    return execute_list_command(credentials, 'application', lambda client: client.v2.apps,
-                                lambda item: dict(title=item["entity"]["name"], subtitle=item["entity"]["state"],
-                                                  icon=None), log)
+        return self.__build_command(item['resource'], item['manager'], item['title'], item['subtitle'])
 
-
-def get_routes(credentials, log):
-    return execute_list_command(credentials, 'route', lambda client: client.v2.routes,
-                                lambda item: dict(title=item["entity"]["host"], subtitle="", icon=None), log)
-
-
-def get_services(credentials, log):
-    return execute_list_command(credentials, 'service', lambda client: client.v2.services,
-                                lambda item: dict(title=item["entity"]["label"], subtitle=item["entity"]["description"],
-                                                  icon=None), log)
-
-
-def get_services_plans(credentials, log):
-    return execute_list_command(credentials, 'service plan', lambda client: client.v2.services,
-                                lambda item: dict(title=item["entity"]["label"], subtitle=item["entity"]["description"],
-                                                  icon=None), log)
+    def __load_commands(self):
+        result = dict()
+        stream = file('./commands.yml', 'r')
+        config = yaml.safe_load(stream)
+        commands_list = config['commands']
+        for item in commands_list:
+            result[item['name']] = self.__build_command_from_item(item)
+        return result
 
 
-def get_buildpacks(credentials, log):
-    return execute_list_command(credentials, 'buildpack', lambda client: client.v2.buildpacks,
-                                lambda item: dict(title=item["entity"]["name"], subtitle=item["entity"]["filename"],
-                                                  icon=None), log)
-
-
-def get_service_bindings(credentials, log):
-    return execute_list_command(credentials, 'service binding', lambda client: client.v2.service_bindings,
-                                lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None), log)
-
-
-def get_service_brokers(credentials, log):
-    return execute_list_command(credentials, 'service broker', lambda client: client.v2.service_brokers,
-                                lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None), log)
-
-def get_shared_domains(credentials, log):
-    return execute_list_command(credentials, 'service broker', lambda client: client.v2.shared_domains,
-                                lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None), log)
-
-def get_service_instances(credentials, log):
-    return execute_list_command(credentials, 'service instance', lambda client: client.v2.service_instances,
-                                lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None), log)
-
-
-def get_spaces(credentials, log):
-    return execute_list_command(credentials, 'space', lambda client: client.v2.spaces,
-                                lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None), log)
-
-
-def get_service_keys(credentials, log):
-    return execute_list_command(credentials, 'service key', lambda client: client.v2.service_keys,
-                                lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None), log)
-
-
-def get_cups(credentials, log):
-    return execute_list_command(credentials, 'user provided instance',
-                                lambda client: client.v2.user_provided_service_instances,
-                                lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None), log)
-
-
-def get_stacks(credentials, log):
-    return execute_list_command(credentials, 'stack', lambda client: client.v2.stacks,
-                                lambda item: dict(title=item["entity"]["name"], subtitle=item["entity"]["description"],
-                                                  icon=None), log)
-
-
-def get_organizations(credentials, log):
-    return execute_list_command(credentials, 'stack', lambda client: client.v2.organizations,
-                                lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None), log)
-
-
-commands = {"apps": get_apps, "routes": get_routes, "services": get_services, "buildpacks": get_buildpacks,
-            "service-bindings": get_service_bindings, "service-brokers": get_service_brokers,
-            "service-instances": get_service_instances, "spaces": get_spaces, "service-keys": get_service_keys,
-            "service-plans": get_services_plans, "cups": get_cups, "stacks": get_stacks,
-            "organizations": get_organizations}
+cmd_manager = CommandManager()
 
 
 def can_execute(command):
-    return commands[command]
+    return cmd_manager.can_execute(command)
 
 
-def execute(command, credentials, log):
-    return commands[command](credentials, log)
+def execute(command, credentials):
+    return cmd_manager.execute(command, credentials)

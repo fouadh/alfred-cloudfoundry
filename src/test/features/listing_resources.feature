@@ -9,9 +9,7 @@ Feature: Listing resources hosted in Cloud Foundry
   Examples:
     | resource    |
     | application |
-    | route       |
-    | service     |
-    | buildpack   |
+
 
   Scenario Outline: Empty list should return an informative message
 
