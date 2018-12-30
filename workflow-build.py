@@ -13,7 +13,7 @@
 Build Alfred Workflows.
 
 Compile contents of <workflow-dir> to a ZIP file (with extension
-`.alfredworkflow`).
+`.alfred3workflow`).
 
 The name of the output file is generated from the workflow name,
 which is extracted from the workflow's `info.plist`. If a `version`
@@ -227,7 +227,7 @@ def get_workflow_files(dirpath):
 
 def build_workflow(workflow_dir, outputdir, overwrite=False, verbose=False,
                    dry_run=False):
-    """Create an .alfredworkflow file from the contents of `workflow_dir`."""
+    """Create an .alfred3workflow file from the contents of `workflow_dir`."""
     with chdir(workflow_dir):
         # ------------------------------------------------------------
         # Read workflow metadata from info.plist
@@ -249,7 +249,7 @@ def build_workflow(workflow_dir, outputdir, overwrite=False, verbose=False,
         if version:
             zippath = '{}-{}'.format(zippath, version)
 
-        zippath += '.alfredworkflow'
+        zippath += '.alfred3workflow'
 
         # ------------------------------------------------------------
         # Workflow files

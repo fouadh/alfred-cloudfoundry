@@ -23,6 +23,8 @@ alfred-cloudfoundry
   cf setcredentials <login> <password>
 ```
 
+*Note:* the password is stored in the Keychain, not in clear.
+
 - List applications
 
 - List routes
