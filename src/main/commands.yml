@@ -1,3 +1,11 @@
+# Command syntax: all is required except the subtitle
+#
+# - name: the name of the command -> must match the name in the Alfred list filter
+#   resource: a string descriptor for the related resource -> used only in informative message (when no resource is found for example)
+#   manager: the name of the property which allows to get the CF manager from the CF python client. For example: client.v2.apps
+#   title: the name of the resource property in the CF response that will be displayed as Alfred title
+#   subtitle: the name of the resource property in the CF response that will be displayed as Alfred subtitle
+#
 commands:
   - name: apps
     resource: application
