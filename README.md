@@ -33,6 +33,8 @@ Type cf to get a list of all the available commands.
 
 - List applications
 
+![image](./doc/images/cf-apps.gif)
+
 - List routes
 
 - List services
