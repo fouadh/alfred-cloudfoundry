@@ -80,6 +80,7 @@ exports.executeAlfredCommand = (user, command, query) => {
   return setupCloudFoundryCredentials(`${user}@acme.com`, `${user.toLowerCase()}123`)
     .then(() => exports.sleep(600))
     .then(() => runJxa(callAlfred, [outputFile, command, query]))
+    .then(() => exports.sleep(400))
     .then(() => waitOn({
       resources: [ `file:${outputFile}` ],
       timeout: 3000

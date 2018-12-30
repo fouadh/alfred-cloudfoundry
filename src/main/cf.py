@@ -6,10 +6,11 @@ import json
 import os
 from cf_commands import can_execute
 
-from workflow import Workflow3, ICON_ERROR, ICON_INFO, notify
+from workflow import Workflow3, ICON_ERROR, ICON_INFO, notify, PasswordNotFound
 from workflow.background import run_in_background, is_running
 
 log = None
+cache_max_age = 15
 
 
 def search_key_for_item(item):
@@ -18,39 +19,49 @@ def search_key_for_item(item):
 
 
 def render_items(workflow, items):
-    external_args = os.getenv('external-args')
-    query = None
-    output_file = None
+    output_file, query = get_args(workflow)
+    items = prepare_items_to_render(items, query)
+    dump_items(items, output_file)
+    for item in items:
+        workflow.add_item(title=item["title"], subtitle=item["subtitle"], icon=item["icon"])
+    workflow.send_feedback()
 
-    if external_args:
-        log.debug("EXTERNAL ARGS: " + external_args)
 
-        args = external_args.split("|")
-        output_file = args[0]
-        if len(args) > 1:
-            query = args[1]
-
-    elif len(workflow.args):
-        query = workflow.args[0]
-
+def prepare_items_to_render(items, query):
     if query:
         items = wf.filter(query, items, search_key_for_item, min_score=20)
-
     items = sorted(items, key=lambda k: k['title'])
+    return items
 
+
+def dump_items(items, output_file):
     if output_file:
         with open(output_file, "w") as f:
             f.write(json.dumps(items))
 
-    for item in items:
-        workflow.add_item(title=item["title"], subtitle=item["subtitle"], icon=item["icon"])
 
-    workflow.send_feedback()
+def get_args(workflow):
+    external_args = os.getenv('external-args')
+    if external_args:
+        return parse_external_args(external_args)
+    elif len(workflow.args):
+        return None, workflow.args[0]
+    else:
+        return None, None
 
 
-def clear_caches(workflow):
+def parse_external_args(external_args):
+    args = external_args.split("|")
+    if len(args) > 1:
+        return args[0], args[1]
+    else:
+        return args[0], None
+
+
+def clear_caches(workflow, notify_user=False):
     workflow.clear_cache()
-    notify.notify(title="Caches have been cleared")
+    if notify_user:
+        notify.notify(title="Caches have been cleared")
 
 
 def clear_credentials(workflow):
@@ -58,7 +69,7 @@ def clear_credentials(workflow):
     workflow.settings['cf_login'] = None
     try:
         workflow.delete_password('cf_password')
-    except BaseException:
+    except PasswordNotFound:
         log.debug('Password not found')
     notify.notify(title="Credentials have been cleared")
 
@@ -93,7 +104,7 @@ def do_execute(workflow):
 
 def get_items(workflow, command):
     # Load data, update if necessary
-    if not workflow.cached_data_fresh(command, max_age=15):
+    if not workflow.cached_data_fresh(command, max_age=cache_max_age):
         do_execute(workflow)
         return []
 
@@ -113,6 +124,18 @@ def display_progress_message(workflow):
     workflow.send_feedback()
 
 
+def clear_caches_and_notify(workflow):
+    clear_caches(workflow, True)
+
+
+commands = {
+    'set-endpoint': setup_endpoint,
+    'set-credentials': setup_credentials,
+    'clear-caches': clear_caches_and_notify,
+    'clear-credentials': clear_credentials
+}
+
+
 def main(workflow):
     items = None
     command = os.getenv('command')
@@ -120,17 +143,10 @@ def main(workflow):
 
     if command:
         log.debug("COMMAND: " + command.upper())
-        if command == 'set-endpoint':
-            setup_endpoint(workflow)
-        elif command == 'set-credentials':
-            items = setup_credentials(workflow)
-        elif command == 'clear-caches':
-            clear_caches(workflow)
-        elif command == 'clear-credentials':
-            clear_credentials(workflow)
+        if command in commands:
+            commands[command](workflow)
         elif can_execute(command):
             items = get_items(workflow, command)
-
             if is_running('execute-command'):
                 display_progress_message(workflow)
                 return 0
