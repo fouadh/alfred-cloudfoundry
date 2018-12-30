@@ -9,11 +9,14 @@ def build_client(credentials):
     return client
 
 
-def execute_list_command(credentials, resource_type, get_manager, item_builder):
+def execute_list_command(credentials, resource_type, get_manager, item_builder, log):
     try:
         items = list()
         client = build_client(credentials)
         manager = get_manager(client)
+
+        if log:
+            log.debug("--> MANAGER: " + str(manager))
 
         for item in manager:
             items.append(item_builder(item))
@@ -21,94 +24,94 @@ def execute_list_command(credentials, resource_type, get_manager, item_builder):
         if len(items) == 0:
             items.append(dict(title="No " + resource_type + " found", subtitle="", icon=None))
 
-    except BaseException:
+    except BaseException as e:
         traceback.print_exc()
         items.append(
-            dict(title="You are not identified: please provide your credentials", subtitle="", icon=ICON_ERROR))
+            dict(title="The command cannot be executed", subtitle=str(e), icon=ICON_ERROR))
 
     return items
 
 
-def get_apps(credentials):
+def get_apps(credentials, log):
     return execute_list_command(credentials, 'application', lambda client: client.v2.apps,
                                 lambda item: dict(title=item["entity"]["name"], subtitle=item["entity"]["state"],
-                                                  icon=None))
+                                                  icon=None), log)
 
 
-def get_routes(credentials):
+def get_routes(credentials, log):
     return execute_list_command(credentials, 'route', lambda client: client.v2.routes,
-                                lambda item: dict(title=item["entity"]["host"], subtitle="", icon=None))
+                                lambda item: dict(title=item["entity"]["host"], subtitle="", icon=None), log)
 
 
-def get_services(credentials):
+def get_services(credentials, log):
     return execute_list_command(credentials, 'service', lambda client: client.v2.services,
                                 lambda item: dict(title=item["entity"]["label"], subtitle=item["entity"]["description"],
-                                                  icon=None))
+                                                  icon=None), log)
 
 
-def get_services_plans(credentials):
+def get_services_plans(credentials, log):
     return execute_list_command(credentials, 'service plan', lambda client: client.v2.services,
                                 lambda item: dict(title=item["entity"]["label"], subtitle=item["entity"]["description"],
-                                                  icon=None))
+                                                  icon=None), log)
 
 
-def get_buildpacks(credentials):
+def get_buildpacks(credentials, log):
     return execute_list_command(credentials, 'buildpack', lambda client: client.v2.buildpacks,
                                 lambda item: dict(title=item["entity"]["name"], subtitle=item["entity"]["filename"],
-                                                  icon=None))
+                                                  icon=None), log)
 
 
-def get_service_bindings(credentials):
+def get_service_bindings(credentials, log):
     return execute_list_command(credentials, 'service binding', lambda client: client.v2.service_bindings,
                                 lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None))
+                                                  icon=None), log)
 
 
-def get_service_brokers(credentials):
+def get_service_brokers(credentials, log):
     return execute_list_command(credentials, 'service broker', lambda client: client.v2.service_brokers,
                                 lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None))
+                                                  icon=None), log)
 
-def get_shared_domains(credentials):
+def get_shared_domains(credentials, log):
     return execute_list_command(credentials, 'service broker', lambda client: client.v2.shared_domains,
                                 lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None))
+                                                  icon=None), log)
 
-def get_service_instances(credentials):
+def get_service_instances(credentials, log):
     return execute_list_command(credentials, 'service instance', lambda client: client.v2.service_instances,
                                 lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None))
+                                                  icon=None), log)
 
 
-def get_spaces(credentials):
+def get_spaces(credentials, log):
     return execute_list_command(credentials, 'space', lambda client: client.v2.spaces,
                                 lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None))
+                                                  icon=None), log)
 
 
-def get_service_keys(credentials):
+def get_service_keys(credentials, log):
     return execute_list_command(credentials, 'service key', lambda client: client.v2.service_keys,
                                 lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None))
+                                                  icon=None), log)
 
 
-def get_cups(credentials):
+def get_cups(credentials, log):
     return execute_list_command(credentials, 'user provided instance',
                                 lambda client: client.v2.user_provided_service_instances,
                                 lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None))
+                                                  icon=None), log)
 
 
-def get_stacks(credentials):
+def get_stacks(credentials, log):
     return execute_list_command(credentials, 'stack', lambda client: client.v2.stacks,
                                 lambda item: dict(title=item["entity"]["name"], subtitle=item["entity"]["description"],
-                                                  icon=None))
+                                                  icon=None), log)
 
 
-def get_organizations(credentials):
+def get_organizations(credentials, log):
     return execute_list_command(credentials, 'stack', lambda client: client.v2.organizations,
                                 lambda item: dict(title=item["entity"]["name"], subtitle="",
-                                                  icon=None))
+                                                  icon=None), log)
 
 
 commands = {"apps": get_apps, "routes": get_routes, "services": get_services, "buildpacks": get_buildpacks,
@@ -122,5 +125,5 @@ def can_execute(command):
     return commands[command]
 
 
-def execute(command, credentials):
-    return commands[command](credentials)
+def execute(command, credentials, log):
+    return commands[command](credentials, log)

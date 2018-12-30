@@ -8,7 +8,7 @@
           "equals": {
             "method": "POST",
             "path": "/oauth/token",
-            "body": "scope=&grant_type=password"
+            "body": "username=John%40acme.com&scope=&password=john123&grant_type=password"
           }
         }
       ],
@@ -16,7 +16,10 @@
         {
           "is": {
             "statusCode": 401,
-            "body": {}
+            "body": {
+              "error": "unauthorized",
+              "error_description": "Bad credentials"
+            }
           }
         }
       ]

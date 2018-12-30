@@ -105,7 +105,7 @@ def buildNoCredentialsMessage():
 
 def execute_list_command(workflow, command):
     def execution_wrapper():
-        return execute(command, credentials)
+        return execute(command, credentials, log)
 
     credentials = find_credentials(workflow)
     if credentials:

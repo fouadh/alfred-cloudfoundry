@@ -4,7 +4,7 @@ Feature: Listing resources hosted in Cloud Foundry
 
     Given one <resource> named <name> is hosted on Cloud Foundry
     When John wants to list all the <resource>s
-    Then the workflow should contain an item with title 'You are not identified: please provide your credentials' and no subtitle
+    Then the workflow should contain an item with title 'The command cannot be executed' and subtitle '401  - unauthorized : Bad credentials'
 
   Examples:
     | resource    |
