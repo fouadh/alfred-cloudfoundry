@@ -4,9 +4,10 @@
 import sys
 import json
 import os
-from cf_commands import can_execute, execute
+from cf_commands import can_execute
 
-from workflow import Workflow3, ICON_ERROR, notify
+from workflow import Workflow3, ICON_ERROR, ICON_INFO, notify
+from workflow.background import run_in_background, is_running
 
 log = None
 
@@ -47,19 +48,6 @@ def render_items(workflow, items):
     workflow.send_feedback()
 
 
-def find_credentials(workflow):
-    try:
-        endpoint = workflow.settings['cf_endpoint']
-        login = workflow.settings['cf_login']
-        password = workflow.get_password('cf_password')
-        if endpoint and login and password:
-            return dict(endpoint=endpoint, login=login, password=password)
-    except:
-        log.debug("Credentials not defined")
-
-    return None
-
-
 def clear_caches(workflow):
     workflow.clear_cache()
     notify.notify(title="Caches have been cleared")
@@ -85,6 +73,7 @@ def setup_credentials(workflow):
     else:
         workflow.settings['cf_login'] = data[0].strip()
         workflow.save_password('cf_password', password=data[1].strip())
+        clear_caches(workflow)
         notify.notify(title='Your credentials have been saved')
 
     return None
@@ -92,26 +81,36 @@ def setup_credentials(workflow):
 
 def setup_endpoint(workflow):
     workflow.settings['cf_endpoint'] = workflow.args[0]
+    clear_caches(workflow)
     notify.notify('The endpoint has been saved')
     return None
 
 
-def buildNoCredentialsMessage():
-    items = list()
-    items.append(
-        dict(title="You are not identified: please provide your credentials", subtitle="", icon=ICON_ERROR))
+def do_execute(workflow):
+    cmd = ['/usr/bin/python', workflow.workflowfile('execute_command.py')]
+    run_in_background('execute-command', cmd)
+
+
+def get_items(workflow, command):
+    # Load data, update if necessary
+    if not workflow.cached_data_fresh(command, max_age=15):
+        do_execute(workflow)
+        return []
+
+    items = workflow.cached_data(command, max_age=0)
+
+    if not items:
+        do_execute(workflow)
+        return []
+
     return items
 
 
-def execute_list_command(workflow, command):
-    def execution_wrapper():
-        return execute(command, credentials)
-
-    credentials = find_credentials(workflow)
-    if credentials:
-        return workflow.cached_data(command, execution_wrapper, max_age=15)
-    else:
-        return buildNoCredentialsMessage()
+def display_progress_message(workflow):
+    workflow.rerun = 0.1
+    workflow.add_item(title='Command in progress...', subtitle='It may take a few seconds...', valid=False,
+                      icon=ICON_INFO)
+    workflow.send_feedback()
 
 
 def main(workflow):
@@ -130,11 +129,16 @@ def main(workflow):
         elif command == 'clear-credentials':
             clear_credentials(workflow)
         elif can_execute(command):
-            items = execute_list_command(workflow, command)
+            items = get_items(workflow, command)
+
+            if is_running('execute-command'):
+                display_progress_message(workflow)
+                return 0
     else:
         log.debug("NO COMMAND")
 
     if items:
+        log.debug("ITEMS: " + str(items))
         render_items(workflow, items)
 
 

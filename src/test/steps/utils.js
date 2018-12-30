@@ -72,17 +72,18 @@ filterByTitleAndSubtitle = (items, title, subtitle) => {
 }
 
 readOutputFile = () => {
-  return waitOn({
-    resources: [ `file:${outputFile}` ],
-    timeout: 3000
-  }).then(() => readFile(outputFile, 'utf-8'))
+  return readFile(outputFile, 'utf-8')
     .then((contents) => JSON.parse(contents)); 
 }
 
 exports.executeAlfredCommand = (user, command, query) => {
   return setupCloudFoundryCredentials(`${user}@acme.com`, `${user.toLowerCase()}123`)
     .then(() => exports.sleep(600))
-    .then(() => runJxa(callAlfred, [outputFile, command, query]));
+    .then(() => runJxa(callAlfred, [outputFile, command, query]))
+    .then(() => waitOn({
+      resources: [ `file:${outputFile}` ],
+      timeout: 3000
+    }));
 }
 
 callAlfred = (outputFile, command, query) => {

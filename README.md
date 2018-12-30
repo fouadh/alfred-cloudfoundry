@@ -1,6 +1,10 @@
 alfred-cloudfoundry
 ===================
 
+This workflow should work with any platform exposing the [Clound Foundry API](https://apidocs.cloudfoundry.org/5.1.0/).
+
+Note that *version 2* of the API is used by this workflow.
+
 # To start
 
 1. Download and install [Cloud-Foundry.alfredworkflow]()
