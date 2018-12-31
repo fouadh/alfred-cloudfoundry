@@ -70,6 +70,16 @@ class AppCommand(Command):
         return items
 
 
+class AppStatsCommand(Command):
+    def do_execute(self, client, credentials, args):
+        items = list()
+        json_str = client.v2.apps.get_stats(args[0])
+        items.append(
+            dict(title="The stats have been obtained", subtitle="Press Cmd+C to save them in the clipboard",
+                 icon=ICON_INFO, __json=json.dumps(json_str)))
+        return items
+
+
 class CommandManager:
 
     def __init__(self):
@@ -112,6 +122,7 @@ class CommandManager:
         result['stop-app'] = AppCommand(description='Stop', function='stop')
         result['remove-app'] = AppCommand(description='Remove', function='remove')
         result['restage-app'] = AppCommand(description='Restage', function='restage')
+        result['stats-app'] = AppStatsCommand()
         return result
 
 

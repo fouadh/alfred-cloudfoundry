@@ -55,6 +55,7 @@ def customize_application_item(item, json_str):
     guid = obj["metadata"]["guid"]
     if state == "STARTED":
         item.add_modifier('cmd', subtitle='Stop the application', arg='stop-app ' + guid)
+        item.add_modifier('alt', subtitle='Get the stats of the application', arg='stats-app ' + guid)
     else:
         item.add_modifier('cmd', subtitle='Start the application', arg='start-app ' + guid)
     item.add_modifier('shift', subtitle='Remove the application', arg='remove-app ' + guid)
