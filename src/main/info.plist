@@ -760,7 +760,11 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>
+	** Alfred Cloud Foundry Workflow **
+
+	Get resources from Cloud Foundry platforms and perform some apps operations like starting, stopping or removing them.
+	</string>
 	<key>uidata</key>
 	<dict>
 		<key>42365D29-65A6-42DC-A4D5-3BBCB38D3328</key>
