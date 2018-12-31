@@ -164,6 +164,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>C0A1EE74-61E3-4827-BC3B-00F976B47E72</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>8E962FBB-44FB-4845-AFF4-21FA1A7284D3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>CA71D43B-319D-4566-AFF3-D77BC5E07751</key>
 		<array>
 			<dict>
@@ -370,6 +383,23 @@
 			<string>CFE038E0-B242-45F4-9A3E-DBDF15E7101A</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>8E962FBB-44FB-4845-AFF4-21FA1A7284D3</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -671,11 +701,7 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>
-	This workflow allows the execution of some Cloud Foundry commands. Configure your credentials and endpoint, then enjoy !
-
-	Help and info: https://github.com/fouadh/alfred-cloudfoundry
-	</string>
+	<string></string>
 	<key>uidata</key>
 	<dict>
 		<key>42365D29-65A6-42DC-A4D5-3BBCB38D3328</key>
@@ -719,6 +745,13 @@
 			<integer>60</integer>
 			<key>ypos</key>
 			<integer>670</integer>
+		</dict>
+		<key>8E962FBB-44FB-4845-AFF4-21FA1A7284D3</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1720</integer>
+			<key>ypos</key>
+			<integer>400</integer>
 		</dict>
 		<key>9620BA59-2F89-4878-871E-5996D0DDCCE9</key>
 		<dict>

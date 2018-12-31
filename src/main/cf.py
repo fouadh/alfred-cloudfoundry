@@ -34,7 +34,10 @@ def render_resources(workflow, resources):
     resources = prepare_items_to_render(resources, query)
     dump_resources(resources, output_file)
     for resource in resources:
-        workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"])
+        json_str = None
+        if 'json' in resource:
+            json_str = resource['json']
+        workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"], valid=True, arg=json_str)
     workflow.send_feedback()
 
 
@@ -172,7 +175,6 @@ def main(workflow):
         log.debug("NO COMMAND")
 
     if resources:
-        log.debug("ITEMS: " + str(resources))
         render_resources(workflow, resources)
 
 

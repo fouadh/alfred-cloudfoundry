@@ -2,6 +2,7 @@ from cloudfoundry_client.client import CloudFoundryClient
 from workflow import ICON_ERROR
 import traceback
 import yaml
+import json
 
 
 class Command:
@@ -24,6 +25,7 @@ class Command:
 
             for resource in manager:
                 item = self.item_builder(resource)
+                item['json'] = json.dumps(resource)
 
                 if item['subtitle'] is None:
                     item['subtitle'] = ''
