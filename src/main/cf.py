@@ -70,7 +70,10 @@ def parse_external_args(external_args):
 
 
 def clear_caches(workflow, notify_user=False):
-    workflow.clear_cache()
+    try:
+        workflow.clear_cache()
+    except:
+        log.debug("Cache error when trying to clean it")
     if notify_user:
         notify.notify(title="Caches have been cleared")
 
