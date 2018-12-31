@@ -6,17 +6,15 @@ import sys
 log = None
 
 
-def execute_list_command(workflow, command):
-    log.debug("-----> ICI")
-
+def execute_list_command(workflow, command_name, args):
     def execution_wrapper():
-        return execute(command, credentials)
+        return execute(command_name, credentials, args)
 
     credentials = find_credentials(workflow)
     if credentials:
-        return workflow.cached_data(command, execution_wrapper, max_age=15)
+        return workflow.cached_data(command_name, execution_wrapper, max_age=15)
     else:
-        return workflow.cached_data(command, build_no_credentials_message, max_age=15)
+        return workflow.cached_data(command_name, build_no_credentials_message, max_age=15)
 
 
 def find_credentials(workflow):
@@ -39,11 +37,11 @@ def build_no_credentials_message():
     return items
 
 
-def main(wf):
+def main(workflow):
     command = os.getenv('command')
-    print("EXECUTE COMMAND: " + str(command))
-    execute_list_command(wf, command)
-    wf.logger.debug("TEST")
+    elements = command.split(' ')
+    command_name = elements.pop(0)
+    execute_list_command(workflow, command_name, elements)
 
 
 if __name__ == '__main__':

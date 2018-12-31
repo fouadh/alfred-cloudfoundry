@@ -17,6 +17,10 @@ Note that *version 2* of the API is used by this workflow.
 
 Type cf to get a list of all the available commands.
 
+When a list is presented, you can search for a specific element.
+
+For any selected resource, press **Cmd+C** and get its JSON value copied in the clipboard. 
+
 - Setup Cloud Foundry endpoint
 
 ```

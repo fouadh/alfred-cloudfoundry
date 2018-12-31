@@ -34,11 +34,27 @@ def render_resources(workflow, resources):
     resources = prepare_items_to_render(resources, query)
     dump_resources(resources, output_file)
     for resource in resources:
-        json_str = None
-        if 'json' in resource:
-            json_str = resource['json']
-        workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"], valid=True, arg=json_str)
+        add_item_for_resource(resource, workflow)
     workflow.send_feedback()
+
+
+def add_item_for_resource(resource, workflow):
+    json_str = None
+    if '__json' in resource:
+        json_str = resource['__json']
+    item = workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"], valid=True, copytext=json_str)
+    if '__type' in resource:
+        if resource['__type'] == 'application' and json_str:
+            customize_application_item(item, json_str)
+
+
+def customize_application_item(item, json_str):
+    obj = json.loads(json_str)
+    state = obj["entity"]["state"]
+    if state == "STARTED":
+        item.add_modifier('cmd', subtitle='Stop the application', arg='stop-app ' + obj["metadata"]["guid"])
+    else:
+        item.add_modifier('cmd', subtitle='Start the application', arg='start-app ' + obj["metadata"]["guid"])
 
 
 def prepare_items_to_render(items, query):
@@ -119,13 +135,13 @@ def do_execute(workflow):
     run_in_background('execute-command', cmd)
 
 
-def get_resources(workflow, command):
+def get_resources(workflow, command_name):
     # Load data, update if necessary
-    if not workflow.cached_data_fresh(command, max_age=CACHE_MAX_AGE):
+    if not workflow.cached_data_fresh(command_name, max_age=CACHE_MAX_AGE):
         do_execute(workflow)
         return []
 
-    items = workflow.cached_data(command, max_age=0)
+    items = workflow.cached_data(command_name, max_age=0)
 
     if not items:
         do_execute(workflow)
@@ -163,14 +179,18 @@ def main(workflow):
     log.debug("ARGS: " + str(workflow.args))
 
     if command:
-        log.debug("COMMAND: " + command.upper())
-        if command in commands:
-            commands[command](workflow)
-        elif can_execute(command):
-            resources = get_resources(workflow, command)
+        log.debug("COMMAND: " + command)
+        command_name = command.split(' ').pop(0)
+        if command_name in commands:
+            commands[command_name](workflow)
+        elif can_execute(command_name):
+            log.debug("Command can be executed :-)")
+            resources = get_resources(workflow, command_name)
             if is_running('execute-command'):
                 display_progress_message(workflow)
                 return 0
+        else:
+            log.debug("Unknown Command")
     else:
         log.debug("NO COMMAND")
 
