@@ -29,12 +29,12 @@ def search_key_for_item(item):
     return u' '.join(elements)
 
 
-def render_items(workflow, items):
+def render_resources(workflow, resources):
     output_file, query = get_args(workflow)
-    items = prepare_items_to_render(items, query)
-    dump_items(items, output_file)
-    for item in items:
-        workflow.add_item(title=item["title"], subtitle=item["subtitle"], icon=item["icon"])
+    resources = prepare_items_to_render(resources, query)
+    dump_resources(resources, output_file)
+    for resource in resources:
+        workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"])
     workflow.send_feedback()
 
 
@@ -45,7 +45,7 @@ def prepare_items_to_render(items, query):
     return items
 
 
-def dump_items(items, output_file):
+def dump_resources(items, output_file):
     if output_file:
         with open(output_file, "w") as f:
             f.write(json.dumps(items))
@@ -116,7 +116,7 @@ def do_execute(workflow):
     run_in_background('execute-command', cmd)
 
 
-def get_items(workflow, command):
+def get_resources(workflow, command):
     # Load data, update if necessary
     if not workflow.cached_data_fresh(command, max_age=CACHE_MAX_AGE):
         do_execute(workflow)
@@ -155,7 +155,7 @@ def main(workflow):
         log.info("Downloading new version of the workflow...")
         workflow.start_update()
 
-    items = None
+    resources = None
     command = os.getenv('command')
     log.debug("ARGS: " + str(workflow.args))
 
@@ -164,16 +164,16 @@ def main(workflow):
         if command in commands:
             commands[command](workflow)
         elif can_execute(command):
-            items = get_items(workflow, command)
+            resources = get_resources(workflow, command)
             if is_running('execute-command'):
                 display_progress_message(workflow)
                 return 0
     else:
         log.debug("NO COMMAND")
 
-    if items:
-        log.debug("ITEMS: " + str(items))
-        render_items(workflow, items)
+    if resources:
+        log.debug("ITEMS: " + str(resources))
+        render_resources(workflow, resources)
 
 
 if __name__ == '__main__':
