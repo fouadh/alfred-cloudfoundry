@@ -22,7 +22,12 @@ When a list is presented, you can search for a specific element.
 For any selected resource, press **Cmd+C** and get its JSON value copied in the clipboard.
 
 A cache per resource (applications, routes, services, ...) is used to keep the resources obtained from Cloud Foundry: it is useful when you are looking for a specific resource
-in a list. The data in a cache expire after 15 seconds. 
+in a list. The data in a cache expire after 15 seconds.
+
+If you're using a proxy, configure it in the **HTTP_PROXY** and **HTTPS_PROXY** environment variables.
+
+Under the hood, this framework uses the [cf-client-python](https://github.com/cloudfoundry-community/cf-python-client) 
+library to execute the requests to Cloud Foundry. 
 
 - Setup Cloud Foundry endpoint
 

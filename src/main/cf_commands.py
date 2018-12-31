@@ -1,8 +1,10 @@
+import json
+import os
+import traceback
+
+import yaml
 from cloudfoundry_client.client import CloudFoundryClient
 from workflow import ICON_ERROR, ICON_INFO
-import traceback
-import yaml
-import json
 
 
 class Command:
@@ -25,7 +27,8 @@ class Command:
 
     @staticmethod
     def __build_client(credentials):
-        client = CloudFoundryClient(credentials["endpoint"], verify=False)
+        proxy = dict(http=os.environ.get('HTTP_PROXY', ''), https=os.environ.get('HTTPS_PROXY', ''))
+        client = CloudFoundryClient(credentials["endpoint"], proxy=proxy, verify=False)
         client.init_with_user_credentials(credentials["login"], credentials["password"])
         return client
 
