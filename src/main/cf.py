@@ -42,7 +42,8 @@ def add_item_for_resource(resource, workflow):
     json_str = None
     if '__json' in resource:
         json_str = resource['__json']
-    item = workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"], valid=True, copytext=json_str)
+    item = workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"], valid=True,
+                             copytext=json_str)
     if '__type' in resource:
         if resource['__type'] == 'application' and json_str:
             customize_application_item(item, json_str)
@@ -139,18 +140,22 @@ def do_execute(workflow):
 
 
 def get_resources(workflow, command_name):
-    # Load data, update if necessary
-    if not workflow.cached_data_fresh(command_name, max_age=CACHE_MAX_AGE):
-        do_execute(workflow)
+    try:
+        # Load data, update if necessary
+        if not workflow.cached_data_fresh(command_name, max_age=CACHE_MAX_AGE):
+            do_execute(workflow)
+            return []
+
+        items = workflow.cached_data(command_name, max_age=0)
+
+        if not items:
+            do_execute(workflow)
+            return []
+
+        return items
+    except:
+        log.debug("Some error occured during the execution in background...let's give it a new try")
         return []
-
-    items = workflow.cached_data(command_name, max_age=0)
-
-    if not items:
-        do_execute(workflow)
-        return []
-
-    return items
 
 
 def display_progress_message(workflow):
