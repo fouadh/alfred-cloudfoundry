@@ -56,21 +56,17 @@ class ListResourcesCommand(Command):
         return items
 
 
-class StartAppCommand(Command):
+class AppCommand(Command):
+    def __init__(self, description, function):
+        self.name = description
+        self.function = function
+
     def do_execute(self, client, credentials, args):
         items = list()
-        client.v2.apps.start(args[0])
-        items.append(dict(title="Start order has been sent", subtitle="it should be effective in a few moment...",
-                          icon=ICON_INFO))
-        return items
-
-
-class StopAppCommand(Command):
-    def do_execute(self, client, credentials, args):
-        items = list()
-        client.v2.apps.stop(args[0])
-        items.append(dict(title="Stop order has been sent", subtitle="it should be effective in a few moment...",
-                          icon=ICON_INFO))
+        getattr(client.v2.apps, self.function)(args[0])
+        items.append(
+            dict(title=self.name + " order has been sent", subtitle="it should be effective in a few moment...",
+                 icon=ICON_INFO))
         return items
 
 
@@ -112,8 +108,10 @@ class CommandManager:
         for item in commands_list:
             result[item['name']] = self.__build_command_from_item(item)
 
-        result['stop-app'] = StopAppCommand()
-        result['start-app'] = StartAppCommand()
+        result['start-app'] = AppCommand(description='Start', function='start')
+        result['stop-app'] = AppCommand(description='Stop', function='stop')
+        result['remove-app'] = AppCommand(description='Remove', function='remove')
+        result['restage-app'] = AppCommand(description='Restage', function='restage')
         return result
 
 

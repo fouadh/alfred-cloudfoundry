@@ -51,10 +51,13 @@ def add_item_for_resource(resource, workflow):
 def customize_application_item(item, json_str):
     obj = json.loads(json_str)
     state = obj["entity"]["state"]
+    guid = obj["metadata"]["guid"]
     if state == "STARTED":
-        item.add_modifier('cmd', subtitle='Stop the application', arg='stop-app ' + obj["metadata"]["guid"])
+        item.add_modifier('cmd', subtitle='Stop the application', arg='stop-app ' + guid)
     else:
-        item.add_modifier('cmd', subtitle='Start the application', arg='start-app ' + obj["metadata"]["guid"])
+        item.add_modifier('cmd', subtitle='Start the application', arg='start-app ' + guid)
+    item.add_modifier('shift', subtitle='Remove the application', arg='remove-app ' + guid)
+    item.add_modifier('ctrl', subtitle='Restage the application', arg='restage-app ' + guid)
 
 
 def prepare_items_to_render(items, query):

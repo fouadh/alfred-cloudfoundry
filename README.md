@@ -19,7 +19,10 @@ Type cf to get a list of all the available commands.
 
 When a list is presented, you can search for a specific element.
 
-For any selected resource, press **Cmd+C** and get its JSON value copied in the clipboard. 
+For any selected resource, press **Cmd+C** and get its JSON value copied in the clipboard.
+
+A cache per resource (applications, routes, services, ...) is used to keep the resources obtained from Cloud Foundry: it is useful when you are looking for a specific resource
+in a list. The data in a cache expire after 15 seconds. 
 
 - Setup Cloud Foundry endpoint
 
@@ -38,6 +41,22 @@ For any selected resource, press **Cmd+C** and get its JSON value copied in the 
 - List applications
 
 ![image](./doc/images/cf-apps.gif)
+
+- Start/Stop an application
+
+Press **Cmd** and select an application to start (or stop) it depending on its state.
+
+Note that starting an application may take a few moment so just be patient.
+
+- Remove an application
+
+Press **Shift** and select the application to remove.
+
+- Restage an application
+
+Press **Ctrl** and select the application to restage.
+
+Note that this can be a lenghty operation since a droplet must be recreated on the platform.
 
 - List routes
 
