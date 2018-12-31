@@ -53,6 +53,8 @@ Press **Cmd** and select an application to start (or stop) it depending on its s
 
 Note that starting an application may take a few moment so just be patient.
 
+![image](./doc/images/cf-stop-app.gif)
+
 - Remove an application
 
 Press **Shift** and select the application to remove.
