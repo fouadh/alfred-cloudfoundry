@@ -25,6 +25,12 @@ class Command:
     def do_execute(self, client, credentials, args):
         pass
 
+    def get_type(self):
+        return self.type
+
+    def get_resource_type(self):
+        return self.resource_type
+
     @staticmethod
     def __build_client(credentials):
         proxy = dict(http=os.environ.get('HTTP_PROXY', ''), https=os.environ.get('HTTPS_PROXY', ''))
@@ -39,6 +45,7 @@ class ListResourcesCommand(Command):
         self.manager_getter = manager_getter
         self.item_builder = item_builder
         self.resource_type = resource_type
+        self.type = '__list'
 
     def do_execute(self, client, credentials, args):
         items = list()
@@ -60,11 +67,15 @@ class ListResourcesCommand(Command):
 
 
 class ActionCommand(Command):
-    def __init__(self, action_name, manager_name, function, description):
+    def __init__(self, action_name, resource, manager_name, function, description, modifier, subtitle):
         self.manager_name = manager_name
         self.name = action_name
+        self.resource_type = resource
         self.function = function
         self.description = description
+        self.modifier = modifier
+        self.subtitle = subtitle
+        self.type = '__action'
 
     def do_execute(self, client, credentials, args):
         items = list()
@@ -76,6 +87,9 @@ class ActionCommand(Command):
 
 
 class AppStatsCommand(Command):
+    def __init__(self):
+        self.type = '__custom'
+
     def do_execute(self, client, credentials, args):
         items = list()
         json_str = client.v2.apps.get_stats(args[0])
@@ -96,6 +110,9 @@ class CommandManager:
     def execute(self, command, credentials, args):
         return self.commands[command].execute(credentials, args)
 
+    def find_actions_by_resource(self, resource):
+        return [cmd for cmd in self.commands.values() if cmd.get_type() == '__action' and cmd.get_resource_type() == resource]
+
     @staticmethod
     def __get_entity_property(resource, name):
         if name:
@@ -110,8 +127,10 @@ class CommandManager:
                                                       icon=None))
 
     @staticmethod
-    def __build_action_command(action_name, manager_name, function, description):
-        return ActionCommand(action_name=action_name, manager_name=manager_name, function=function, description=description)
+    def __build_action_command(item):
+        return ActionCommand(action_name=item['name'], manager_name=item['manager'], function=item['function'],
+                             description=item['description'], resource=item['resource'], modifier=item['modifier'],
+                             subtitle=item['subtitle'])
 
     def __build_command_from_item(self, item):
         if not ('subtitle' in item):
@@ -121,7 +140,7 @@ class CommandManager:
         if type == 'list':
             return self.__build_list_command(item['resource'], item['manager'], item['title'], item['subtitle'])
         elif type == 'action':
-            return self.__build_action_command(item['name'], item['manager'], item['function'], item['description'])
+            return self.__build_action_command(item)
         else:
             raise Exception("Unknown command type: " + type)
 

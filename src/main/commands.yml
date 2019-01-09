@@ -1,11 +1,3 @@
-# Command syntax: all is required except the subtitle
-#
-# - name: the name of the command -> must match the name in the Alfred list filter
-#   resource: a string descriptor for the related resource -> used only in informative message (when no resource is found for example)
-#   manager: the name of the property which allows to get the CF manager from the CF python client. For example: client.v2.apps
-#   title: the name of the resource property in the CF response that will be displayed as Alfred title
-#   subtitle: the name of the resource property in the CF response that will be displayed as Alfred subtitle
-#
 commands:
   - name: apps
     type: list
@@ -19,24 +11,38 @@ commands:
     description: Start
     manager: apps
     function: start
+    resource: application
+    subtitle: Start this application
+    modifier: Cmd
+    conditions: state == STOPPED
 
   - type: action
     name: stop-app
     description: Stop
     manager: apps
     function: stop
+    resource: application
+    subtitle: Stop this application
+    modifier: Cmd
+    conditions: state == STARTED
 
   - type: action
     name: remove-app
     description: Remove
     manager: apps
     function: remove
+    resource: application
+    subtitle: Remove this application
+    modifier: shift
 
   - type: action
     name: restage-app
     description: Restage
     manager: apps
     function: restage
+    resource: application
+    subtitle: Restage this application
+    modifier: ctrl
 
   - name: routes
     type: list
@@ -73,15 +79,27 @@ commands:
 
   - name: remove-service-binding
     type: action
+    resource: service binding
     manager: service_bindings
     description: Remove Service Binding
     function: remove
+    modifier: shift
+    subtitle: Remove this service binding
 
   - name: service-brokers
     type: list
     resource: service broker
     manager: service_brokers
     title: name
+
+  - name: remove-service-broker
+    type: action
+    resource: service broker
+    manager: service_brokers
+    description: Remove Service Broker
+    function: remove
+    modifier: shift
+    subtitle: Remove this service broker
 
   - name: shared-domains
     type: list
@@ -103,9 +121,12 @@ commands:
 
   - name: remove-service-instance
     type: action
+    resource: service instance
     manager: service_instances
     description: Remove Service Instance
     function: remove
+    modifier: shift
+    subtitle: Remove this service instance
 
   - name: spaces
     type: list
@@ -118,6 +139,15 @@ commands:
     resource: service key
     manager: service_keys
     title: name
+
+  - name: remove-service-key
+    type: action
+    resource: service key
+    manager: service_keys
+    description: Remove Service Key
+    function: remove
+    modifier: shift
+    subtitle: Remove this service key
 
   - name: stacks
     type: list
