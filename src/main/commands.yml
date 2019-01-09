@@ -13,8 +13,9 @@ commands:
     function: start
     resource: application
     subtitle: Start this application
-    modifier: Cmd
-    conditions: state == STOPPED
+    modifier: cmd
+    condition:
+      state: STOPPED
 
   - type: action
     name: stop-app
@@ -23,8 +24,9 @@ commands:
     function: stop
     resource: application
     subtitle: Stop this application
-    modifier: Cmd
-    conditions: state == STARTED
+    modifier: cmd
+    condition:
+      state: STARTED
 
   - type: action
     name: remove-app

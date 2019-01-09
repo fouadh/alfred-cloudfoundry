@@ -45,30 +45,23 @@ def add_item_for_resource(resource, workflow):
     item = workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"], valid=True,
                              copytext=json_str)
 
-    if '__type' in resource:
-        log.debug("Resource type --> " + str(resource['__type']))
-        if resource['__type'] == 'application' and json_str:
+    if '__type' in resource and json_str:
+        actions = cmd_manager.find_actions_by_resource(resource['__type'])
+        if resource['__type'] == 'application':
             customize_application_item(item, json_str)
-        else:
-            actions = cmd_manager.find_actions_by_resource(resource['__type'])
-            if len(actions) > 0:
-                obj = json.loads(json_str)
-                guid = obj["metadata"]["guid"]
-                for action in actions:
+
+        if len(actions) > 0:
+            obj = json.loads(json_str)
+            guid = obj["metadata"]["guid"]
+            for action in actions:
+                if action.evaluate_condition(obj):
                     item.add_modifier(action.modifier, subtitle=action.subtitle, arg=action.name + ' ' + guid)
 
 
 def customize_application_item(item, json_str):
     obj = json.loads(json_str)
-    state = obj["entity"]["state"]
     guid = obj["metadata"]["guid"]
-    if state == "STARTED":
-        item.add_modifier('cmd', subtitle='Stop this application', arg='stop-app ' + guid)
-        item.add_modifier('alt', subtitle='Get the stats of this application', arg='stats-app ' + guid)
-    else:
-        item.add_modifier('cmd', subtitle='Start this application', arg='start-app ' + guid)
-    item.add_modifier('shift', subtitle='Remove this application', arg='remove-app ' + guid)
-    item.add_modifier('ctrl', subtitle='Restage this application', arg='restage-app ' + guid)
+    item.add_modifier('alt', subtitle='Get the stats of this application', arg='stats-app ' + guid)
 
 
 def prepare_items_to_render(items, query):

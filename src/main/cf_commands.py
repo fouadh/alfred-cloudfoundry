@@ -76,6 +76,20 @@ class ActionCommand(Command):
         self.modifier = modifier
         self.subtitle = subtitle
         self.type = '__action'
+        self.condition = None
+
+    def add_condition(self, condition):
+        self.condition = condition
+
+    def evaluate_condition(self, item):
+        if self.condition is None:
+            return True
+
+        for key in self.condition:
+            if not(self.condition[key] == item["entity"][key]):
+                return False
+
+        return True
 
     def do_execute(self, client, credentials, args):
         items = list()
@@ -111,7 +125,8 @@ class CommandManager:
         return self.commands[command].execute(credentials, args)
 
     def find_actions_by_resource(self, resource):
-        return [cmd for cmd in self.commands.values() if cmd.get_type() == '__action' and cmd.get_resource_type() == resource]
+        return [cmd for cmd in self.commands.values() if
+                cmd.get_type() == '__action' and cmd.get_resource_type() == resource]
 
     @staticmethod
     def __get_entity_property(resource, name):
@@ -128,9 +143,12 @@ class CommandManager:
 
     @staticmethod
     def __build_action_command(item):
-        return ActionCommand(action_name=item['name'], manager_name=item['manager'], function=item['function'],
+        cmd = ActionCommand(action_name=item['name'], manager_name=item['manager'], function=item['function'],
                              description=item['description'], resource=item['resource'], modifier=item['modifier'],
                              subtitle=item['subtitle'])
+        if 'condition' in item:
+            cmd.add_condition(item['condition'])
+        return cmd
 
     def __build_command_from_item(self, item):
         if not ('subtitle' in item):
