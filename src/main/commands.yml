@@ -71,6 +71,12 @@ commands:
     manager: service_bindings
     title: name
 
+  - name: remove-service-binding
+    type: action
+    manager: service_bindings
+    description: Remove Service Binding
+    function: remove
+
   - name: service-brokers
     type: list
     resource: service broker

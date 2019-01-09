@@ -50,13 +50,21 @@ def add_item_for_resource(resource, workflow):
         if resource['__type'] == 'application' and json_str:
             customize_application_item(item, json_str)
         elif resource['__type'] == 'service instance' and json_str:
-            customize_service_item(item, json_str)
+            customize_service_instance_item(item, json_str)
+        elif resource['__type'] == 'service binding' and json_str:
+            customize_service_binding_item(item, json_str)
 
 
-def customize_service_item(item, json_str):
+def customize_service_instance_item(item, json_str):
     obj = json.loads(json_str)
     guid = obj["metadata"]["guid"]
     item.add_modifier('shift', subtitle='Remove this service instance', arg='remove-service-instance ' + guid)
+
+
+def customize_service_binding_item(item, json_str):
+    obj = json.loads(json_str)
+    guid = obj["metadata"]["guid"]
+    item.add_modifier('shift', subtitle='Remove this binding', arg='remove-service-binding ' + guid)
 
 
 def customize_application_item(item, json_str):
