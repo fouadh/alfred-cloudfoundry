@@ -3,8 +3,6 @@ import sys, os
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(current_dir + '/../main/')
 
-print("path => " + str(sys.path))
-
 from cf_commands import cmd_manager
 
 
@@ -32,6 +30,7 @@ def test_action_command_is_correctly_built():
     assert command.subtitle == 'Start this application'
     assert command.modifier == 'cmd'
     assert command.condition == dict(state='STOPPED')
+
 
 def test_application_actions_are_present():
     commands = cmd_manager.find_actions_by_resource('application')
