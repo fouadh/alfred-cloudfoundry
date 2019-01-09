@@ -8,80 +8,125 @@
 #
 commands:
   - name: apps
+    type: list
     resource: application
     manager: apps
     title: name
     subtitle: state
 
+  - type: action
+    name: start-app
+    description: Start
+    manager: apps
+    function: start
+
+  - type: action
+    name: stop-app
+    description: Stop
+    manager: apps
+    function: stop
+
+  - type: action
+    name: remove-app
+    description: Remove
+    manager: apps
+    function: remove
+
+  - type: action
+    name: restage-app
+    description: Restage
+    manager: apps
+    function: restage
+
   - name: routes
+    type: list
     resource: route
     manager: routes
     title: host
 
   - name: services
+    type: list
     resource: service
     manager: services
     title: label
     subtitle: description
 
   - name: service-plans
+    type: list
     resource: service plan
     manager: service_plans
     title: name
     subtitle: description
 
   - name: buildpacks
+    type: list
     resource: buildpack
     manager: buildpacks
     title: name
     subtitle: filename
 
   - name: service-bindings
+    type: list
     resource: service binding
     manager: service_bindings
     title: name
 
   - name: service-brokers
+    type: list
     resource: service broker
     manager: service_brokers
     title: name
 
   - name: shared-domains
+    type: list
     resource: shared domain
     manager: shared_domains
     title: name
 
   - name: private-domains
+    type: list
     resource: private domain
     manager: private_domains
     title: name
 
   - name: service-instances
+    type: list
     resource: service instance
     manager: service_instances
     title: name
 
+  - name: remove-service-instance
+    type: action
+    manager: service_instances
+    description: Remove Service Instance
+    function: remove
+
   - name: spaces
+    type: list
     resource: space
     manager: spaces
     title: name
 
   - name: service-keys
+    type: list
     resource: service key
     manager: service_keys
     title: name
 
   - name: stacks
+    type: list
     resource: stack
     manager: stacks
     title: name
 
   - name: organizations
+    type: list
     resource: organization
     manager: organizations
     title: name
 
   - name: ups
+    type: list
     resource: user provided instance
     manager: user_provided_service_instances
     title: name

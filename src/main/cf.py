@@ -4,7 +4,7 @@
 import sys
 import json
 import os
-from cf_commands import can_execute
+from cf_commands import can_execute, cmd_manager
 
 from workflow import Workflow3, ICON_ERROR, ICON_INFO, notify, PasswordNotFound
 from workflow.background import run_in_background, is_running
@@ -44,9 +44,19 @@ def add_item_for_resource(resource, workflow):
         json_str = resource['__json']
     item = workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"], valid=True,
                              copytext=json_str)
+
     if '__type' in resource:
+        log.debug("Resource type --> " + str(resource['__type']))
         if resource['__type'] == 'application' and json_str:
             customize_application_item(item, json_str)
+        elif resource['__type'] == 'service instance' and json_str:
+            customize_service_item(item, json_str)
+
+
+def customize_service_item(item, json_str):
+    obj = json.loads(json_str)
+    guid = obj["metadata"]["guid"]
+    item.add_modifier('shift', subtitle='Remove this service instance', arg='remove-service-instance ' + guid)
 
 
 def customize_application_item(item, json_str):
@@ -54,12 +64,12 @@ def customize_application_item(item, json_str):
     state = obj["entity"]["state"]
     guid = obj["metadata"]["guid"]
     if state == "STARTED":
-        item.add_modifier('cmd', subtitle='Stop the application', arg='stop-app ' + guid)
-        item.add_modifier('alt', subtitle='Get the stats of the application', arg='stats-app ' + guid)
+        item.add_modifier('cmd', subtitle='Stop this application', arg='stop-app ' + guid)
+        item.add_modifier('alt', subtitle='Get the stats of this application', arg='stats-app ' + guid)
     else:
-        item.add_modifier('cmd', subtitle='Start the application', arg='start-app ' + guid)
-    item.add_modifier('shift', subtitle='Remove the application', arg='remove-app ' + guid)
-    item.add_modifier('ctrl', subtitle='Restage the application', arg='restage-app ' + guid)
+        item.add_modifier('cmd', subtitle='Start this application', arg='start-app ' + guid)
+    item.add_modifier('shift', subtitle='Remove this application', arg='remove-app ' + guid)
+    item.add_modifier('ctrl', subtitle='Restage this application', arg='restage-app ' + guid)
 
 
 def prepare_items_to_render(items, query):

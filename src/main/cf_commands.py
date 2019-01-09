@@ -59,16 +59,18 @@ class ListResourcesCommand(Command):
         return items
 
 
-class AppCommand(Command):
-    def __init__(self, description, function):
-        self.name = description
+class ActionCommand(Command):
+    def __init__(self, action_name, manager_name, function, description):
+        self.manager_name = manager_name
+        self.name = action_name
         self.function = function
+        self.description = description
 
     def do_execute(self, client, credentials, args):
         items = list()
-        getattr(client.v2.apps, self.function)(args[0])
+        getattr(vars(client.v2)[self.manager_name], self.function)(args[0])
         items.append(
-            dict(title=self.name + " order has been sent", subtitle="it should be effective in a few moment...",
+            dict(title=self.description + " order has been sent", subtitle="it should be effective in a few moment",
                  icon=ICON_INFO))
         return items
 
@@ -101,17 +103,27 @@ class CommandManager:
         else:
             return None
 
-    def __build_command(self, resource_type, manager, title_property, subtitle_property):
+    def __build_list_command(self, resource_type, manager, title_property, subtitle_property):
         return ListResourcesCommand(resource_type, lambda client: vars(client.v2)[manager],
                                     lambda item: dict(title=self.__get_entity_property(item, title_property),
                                                       subtitle=self.__get_entity_property(item, subtitle_property),
                                                       icon=None))
 
+    @staticmethod
+    def __build_action_command(action_name, manager_name, function, description):
+        return ActionCommand(action_name=action_name, manager_name=manager_name, function=function, description=description)
+
     def __build_command_from_item(self, item):
         if not ('subtitle' in item):
             item['subtitle'] = None
 
-        return self.__build_command(item['resource'], item['manager'], item['title'], item['subtitle'])
+        type = item['type']
+        if type == 'list':
+            return self.__build_list_command(item['resource'], item['manager'], item['title'], item['subtitle'])
+        elif type == 'action':
+            return self.__build_action_command(item['name'], item['manager'], item['function'], item['description'])
+        else:
+            raise Exception("Unknown command type: " + type)
 
     def __load_commands(self):
         result = dict()
@@ -120,11 +132,6 @@ class CommandManager:
         commands_list = config['commands']
         for item in commands_list:
             result[item['name']] = self.__build_command_from_item(item)
-
-        result['start-app'] = AppCommand(description='Start', function='start')
-        result['stop-app'] = AppCommand(description='Stop', function='stop')
-        result['remove-app'] = AppCommand(description='Remove', function='remove')
-        result['restage-app'] = AppCommand(description='Restage', function='restage')
         result['stats-app'] = AppStatsCommand()
         return result
 
