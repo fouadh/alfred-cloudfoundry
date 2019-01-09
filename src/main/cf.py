@@ -201,7 +201,7 @@ def main(workflow):
                 display_progress_message(workflow)
                 return 0
         else:
-            log.debug("Unknown Command")
+            log.debug("Unknown Command: " + command)
     else:
         log.debug("NO COMMAND")
 

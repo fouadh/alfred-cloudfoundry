@@ -24,7 +24,9 @@ class FileHelper(object):
             for entry in zip_ref.namelist():
                 filename = os.path.basename(entry)
                 if not filename:
-                    os.makedirs(os.path.join(tmp_dir, entry), exist_ok=True)
+                    # fha change --> not working with python 2
+                    #os.makedirs(os.path.join(tmp_dir, entry), exist_ok=True)
+                    os.makedirs(os.path.join(tmp_dir, entry))
                 else:
                     zip_ref.extract(entry, tmp_dir)
 

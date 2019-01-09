@@ -8,6 +8,19 @@
 	<string>Tools</string>
 	<key>connections</key>
 	<dict>
+		<key>01E0EA8B-B8B0-4F55-823D-0C9DB0145F96</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>8BAB580C-12F6-4D8B-897F-FAEEDC6C8F9F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>42365D29-65A6-42DC-A4D5-3BBCB38D3328</key>
 		<array>
 			<dict>
@@ -156,6 +169,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>C0A1EE74-61E3-4827-BC3B-00F976B47E72</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>B85EB2D9-CBDE-469E-BF59-5D22B25E4870</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>01E0EA8B-B8B0-4F55-823D-0C9DB0145F96</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -582,6 +608,24 @@
 				<key>variables</key>
 				<dict>
 					<key>command</key>
+					<string>push {query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>01E0EA8B-B8B0-4F55-823D-0C9DB0145F96</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>command</key>
 					<string>{query}</string>
 				</dict>
 			</dict>
@@ -591,6 +635,70 @@
 			<string>4C69DAE3-F0EA-48C7-9694-99E8646BB045</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>acceptsmulti</key>
+				<false/>
+				<key>filetypes</key>
+				<array>
+					<string>dyn.ah62d4rv4ge81w5pq</string>
+				</array>
+				<key>name</key>
+				<string>Push in CloudFoundry</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.action</string>
+			<key>uid</key>
+			<string>B85EB2D9-CBDE-469E-BF59-5D22B25E4870</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>/usr/bin/python cf.py</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>8BAB580C-12F6-4D8B-897F-FAEEDC6C8F9F</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -767,6 +875,13 @@
 	</string>
 	<key>uidata</key>
 	<dict>
+		<key>01E0EA8B-B8B0-4F55-823D-0C9DB0145F96</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1480</integer>
+			<key>ypos</key>
+			<integer>540</integer>
+		</dict>
 		<key>42365D29-65A6-42DC-A4D5-3BBCB38D3328</key>
 		<dict>
 			<key>xpos</key>
@@ -816,6 +931,13 @@
 			<key>ypos</key>
 			<integer>670</integer>
 		</dict>
+		<key>8BAB580C-12F6-4D8B-897F-FAEEDC6C8F9F</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1560</integer>
+			<key>ypos</key>
+			<integer>580</integer>
+		</dict>
 		<key>9620BA59-2F89-4878-871E-5996D0DDCCE9</key>
 		<dict>
 			<key>xpos</key>
@@ -857,6 +979,13 @@
 			<integer>390</integer>
 			<key>ypos</key>
 			<integer>480</integer>
+		</dict>
+		<key>B85EB2D9-CBDE-469E-BF59-5D22B25E4870</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1320</integer>
+			<key>ypos</key>
+			<integer>580</integer>
 		</dict>
 		<key>C0A1EE74-61E3-4827-BC3B-00F976B47E72</key>
 		<dict>

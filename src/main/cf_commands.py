@@ -3,6 +3,7 @@ import os
 import traceback
 
 import yaml
+from cloudfoundry_client.operations.push import push
 from cloudfoundry_client.client import CloudFoundryClient
 from workflow import ICON_ERROR, ICON_INFO
 
@@ -86,7 +87,7 @@ class ActionCommand(Command):
             return True
 
         for key in self.condition:
-            if not(self.condition[key] == item["entity"][key]):
+            if not (self.condition[key] == item["entity"][key]):
                 return False
 
         return True
@@ -110,6 +111,18 @@ class AppStatsCommand(Command):
         items.append(
             dict(title="The stats have been obtained", subtitle="Press Cmd+C to save them in the clipboard",
                  icon=ICON_INFO, __json=json.dumps(json_str)))
+        return items
+
+
+class PushCommand(Command):
+    def __init__(self):
+        self.type = '__custom'
+
+    def do_execute(self, client, credentials, args):
+        items = list()
+        operation = push.PushOperation(client)
+        operation.push(client.v2.spaces.get_first(name='development')['metadata']['guid'], args[0])
+        items.append(dict(title="The application has been pushed", subtitle="", icon=ICON_INFO))
         return items
 
 
@@ -144,8 +157,8 @@ class CommandManager:
     @staticmethod
     def __build_action_command(item):
         cmd = ActionCommand(action_name=item['name'], manager_name=item['manager'], function=item['function'],
-                             description=item['description'], resource=item['resource'], modifier=item['modifier'],
-                             subtitle=item['subtitle'])
+                            description=item['description'], resource=item['resource'], modifier=item['modifier'],
+                            subtitle=item['subtitle'])
         if 'condition' in item:
             cmd.add_condition(item['condition'])
         return cmd
@@ -170,6 +183,7 @@ class CommandManager:
         for item in commands_list:
             result[item['name']] = self.__build_command_from_item(item)
         result['stats-app'] = AppStatsCommand()
+        result['push'] = PushCommand()
         return result
 
 
