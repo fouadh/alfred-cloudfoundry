@@ -2,7 +2,7 @@
 
 echo "Running the tests..."
 
-cd src/test
+cd src/e2e
 npm install
 npm run cucumber
 
