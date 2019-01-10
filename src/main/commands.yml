@@ -136,6 +136,15 @@ commands:
     manager: spaces
     title: name
 
+  - name: target-space
+    type: action
+    resource: space
+    manager:
+    description:
+    function:
+    modifier: cmd
+    subtitle: Target this space
+
   - name: service-keys
     type: list
     resource: service key

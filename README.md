@@ -47,6 +47,14 @@ library to execute the requests to Cloud Foundry.
 
 ![image](./doc/images/cf-apps.gif)
 
+- Push an application (via a manifest)
+
+(Note that a space must have been targeted before pushing)
+
+From the Finder
+
+From Alfred
+
 - Start/Stop an application
 
 Press **Cmd** and select an application to start (or stop) it depending on its state.
@@ -85,6 +93,8 @@ When the stats are obtained, press **Cmd+C** to save them in the clipboard.
 
 ![image](./doc/images/cf-services-instances.gif)
 
+- Remove a service instance
+
 - List services bindings
 
 - List shared domains
@@ -95,6 +105,10 @@ When the stats are obtained, press **Cmd+C** to save them in the clipboard.
 
 ![image](./doc/images/cf-spaces.gif)
 
+- Target a space
+
+Use the Cmd key to target a space: it will be used for push operations.
+
 - List organizations
 
 - List stacks
@@ -104,6 +118,8 @@ When the stats are obtained, press **Cmd+C** to save them in the clipboard.
 - List user provided services
 
 - List service brokers
+
+- Remove a service broker
 
 # Testing
 

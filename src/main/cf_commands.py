@@ -26,12 +26,6 @@ class Command:
     def do_execute(self, client, credentials, args):
         pass
 
-    def get_type(self):
-        return self.type
-
-    def get_resource_type(self):
-        return self.resource_type
-
     @staticmethod
     def __build_client(credentials):
         proxy = dict(http=os.environ.get('HTTP_PROXY', ''), https=os.environ.get('HTTPS_PROXY', ''))
@@ -41,8 +35,9 @@ class Command:
 
 
 class ListResourcesCommand(Command):
-    def __init__(self, resource_type, manager_getter, item_builder):
+    def __init__(self, name, resource_type, manager_getter, item_builder):
         Command.__init__(self)
+        self.name = name
         self.manager_getter = manager_getter
         self.item_builder = item_builder
         self.resource_type = resource_type
@@ -120,9 +115,14 @@ class PushCommand(Command):
 
     def do_execute(self, client, credentials, args):
         items = list()
-        operation = push.PushOperation(client)
-        operation.push(client.v2.spaces.get_first(name='development')['metadata']['guid'], args[0])
-        items.append(dict(title="The application has been pushed", subtitle="", icon=ICON_INFO))
+        if 'space' in credentials:
+            operation = push.PushOperation(client)
+            operation.push(credentials['space'], args[0])
+            items.append(dict(title="The application has been pushed", subtitle="", icon=ICON_INFO))
+        else:
+            items.append(dict(title="Please target a space before pushing an app",
+                              subtitle="Display the list of spaces, then press Cmd and select the space",
+                              icon=ICON_ERROR))
         return items
 
 
@@ -139,7 +139,7 @@ class CommandManager:
 
     def find_actions_by_resource(self, resource):
         return [cmd for cmd in self.commands.values() if
-                cmd.get_type() == '__action' and cmd.get_resource_type() == resource]
+                cmd.type == '__action' and cmd.resource_type == resource]
 
     @staticmethod
     def __get_entity_property(resource, name):
@@ -148,11 +148,13 @@ class CommandManager:
         else:
             return None
 
-    def __build_list_command(self, resource_type, manager, title_property, subtitle_property):
-        return ListResourcesCommand(resource_type, lambda client: vars(client.v2)[manager],
-                                    lambda item: dict(title=self.__get_entity_property(item, title_property),
-                                                      subtitle=self.__get_entity_property(item, subtitle_property),
-                                                      icon=None))
+    def __build_list_command(self, name, resource_type, manager, title_property, subtitle_property):
+        return ListResourcesCommand(name=name, resource_type=resource_type,
+                                    manager_getter=lambda client: vars(client.v2)[manager],
+                                    item_builder=lambda item: dict(
+                                        title=self.__get_entity_property(item, title_property),
+                                        subtitle=self.__get_entity_property(item, subtitle_property),
+                                        icon=None))
 
     @staticmethod
     def __build_action_command(item):
@@ -169,7 +171,8 @@ class CommandManager:
 
         type = item['type']
         if type == 'list':
-            return self.__build_list_command(item['resource'], item['manager'], item['title'], item['subtitle'])
+            return self.__build_list_command(item['name'], item['resource'], item['manager'], item['title'],
+                                             item['subtitle'])
         elif type == 'action':
             return self.__build_action_command(item)
         else:
@@ -177,7 +180,8 @@ class CommandManager:
 
     def __load_commands(self):
         result = dict()
-        stream = file('./commands.yml', 'r')
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        stream = file(current_dir + '/commands.yml', 'r')
         config = yaml.safe_load(stream)
         commands_list = config['commands']
         for item in commands_list:

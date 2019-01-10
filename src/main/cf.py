@@ -104,9 +104,11 @@ def clear_caches(workflow, notify_user=False):
         notify.notify(title="Caches have been cleared")
 
 
-def clear_credentials(workflow):
+def clear_credentials(workflow, command=None):
     workflow.settings['cf_endpoint'] = None
     workflow.settings['cf_login'] = None
+    if 'cf_space' in workflow.settings:
+        workflow.settings['cf_space'] = None
     try:
         workflow.delete_password('cf_password')
     except PasswordNotFound:
@@ -114,7 +116,13 @@ def clear_credentials(workflow):
     notify.notify(title="Credentials have been cleared")
 
 
-def setup_credentials(workflow):
+def target_space(workflow, command):
+    selected_space = command.split(' ')[1]
+    workflow.settings['cf_space'] = selected_space
+    notify.notify(title="The space has been targeted")
+
+
+def setup_credentials(workflow, command=None):
     data = workflow.args[0].split(" ")
     if len(data) != 2:
         items = list()
@@ -130,7 +138,7 @@ def setup_credentials(workflow):
     return None
 
 
-def setup_endpoint(workflow):
+def setup_endpoint(workflow, command=None):
     workflow.settings['cf_endpoint'] = workflow.args[0]
     clear_caches(workflow)
     notify.notify('The endpoint has been saved')
@@ -168,7 +176,7 @@ def display_progress_message(workflow):
     workflow.send_feedback()
 
 
-def clear_caches_and_notify(workflow):
+def clear_caches_and_notify(workflow, command=None):
     clear_caches(workflow, True)
 
 
@@ -176,7 +184,8 @@ commands = {
     'set-endpoint': setup_endpoint,
     'set-credentials': setup_credentials,
     'clear-caches': clear_caches_and_notify,
-    'clear-credentials': clear_credentials
+    'clear-credentials': clear_credentials,
+    'target-space': target_space
 }
 
 
@@ -193,7 +202,7 @@ def main(workflow):
         log.debug("COMMAND: " + command)
         command_name = command.split(' ').pop(0)
         if command_name in commands:
-            commands[command_name](workflow)
+            commands[command_name](workflow, command)
         elif can_execute(command_name):
             log.debug("Command can be executed :-)")
             resources = get_resources(workflow, command_name)

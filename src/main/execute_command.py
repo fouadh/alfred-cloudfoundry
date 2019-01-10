@@ -22,8 +22,12 @@ def find_credentials(workflow):
         endpoint = workflow.settings['cf_endpoint']
         login = workflow.settings['cf_login']
         password = workflow.get_password('cf_password')
+        space = None
+        if 'cf_space' in workflow.settings:
+            space = workflow.settings['cf_space']
+
         if endpoint and login and password:
-            return dict(endpoint=endpoint, login=login, password=password)
+            return dict(endpoint=endpoint, login=login, password=password, space=space)
     except:
         log.debug("Credentials not defined")
 
