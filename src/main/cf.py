@@ -175,7 +175,7 @@ def get_resources(workflow, command_name):
 
 
 def display_progress_message(workflow):
-    workflow.rerun = 0.1
+    workflow.rerun = 1
     workflow.add_item(title='Command in progress...', subtitle='It may take a few seconds...', valid=False,
                       icon=ICON_INFO)
     workflow.send_feedback()
