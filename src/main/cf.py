@@ -39,19 +39,37 @@ def render_resources(workflow, resources):
 
 
 def add_item_for_resource(resource, workflow):
-    json_str = None
+    text_to_copy = None
     if '__json' in resource:
-        json_str = resource['__json']
-    item = workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"], valid=True,
-                             copytext=json_str)
+        text_to_copy = resource['__json']
+    else:
+        text_to_copy = resource["subtitle"]
 
-    if '__type' in resource and json_str:
+    actionable = False
+    arg = None
+
+    if '__type' in resource and resource['__type'] == 'bindable app':
+        actionable = True
+        obj = json.loads(text_to_copy)
+        guid = obj["metadata"]["guid"]
+        arg = 'bind-app ' + guid + ' ' + resource['__service_guid']
+
+    item = workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"],
+                             valid=actionable,
+                             copytext=text_to_copy, arg=arg)
+
+    if '__type' in resource and text_to_copy:
         actions = cmd_manager.find_actions_by_resource(resource['__type'])
         if resource['__type'] == 'application':
-            customize_application_item(item, json_str)
+            customize_application_item(item, text_to_copy)
+
+        if resource['__type'] == 'service instance':
+            obj = json.loads(text_to_copy)
+            guid = obj["metadata"]["guid"]
+            item.add_modifier('cmd', subtitle='Bind to an application', arg='list-bindable-apps ' + guid)
 
         if len(actions) > 0:
-            obj = json.loads(json_str)
+            obj = json.loads(text_to_copy)
             guid = obj["metadata"]["guid"]
             for action in actions:
                 if action.evaluate_condition(obj):

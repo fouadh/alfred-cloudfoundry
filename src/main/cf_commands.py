@@ -112,6 +112,38 @@ class ListResourcesCommand(Command):
         return items
 
 
+class ListAppsToBind(Command):
+    def __init__(self, apps_command):
+        Command.__init__(self)
+        self.apps_command = apps_command
+        self.type = '__list-bindable-apps'
+
+    def do_execute(self, client, credentials, args):
+        items = self.apps_command.execute(credentials, args)
+        for item in items:
+            if '__json' in item:
+                item['__type'] = 'bindable app'
+                item['__service_guid'] = args[0]
+
+        return items
+
+
+class BindAppToService(Command):
+    def __init__(self):
+        Command.__init__(self)
+        self.type = '__bind-app'
+
+    def do_execute(self, client, credentials, args):
+        items = list()
+        app = client.v2.apps.get(args[0])
+        app_name = app['entity']['name']
+        service = client.v2.service_instances.get(args[1])
+        service_name = service['entity']['name']
+
+        client.v2.service_bindings.create(args[0], args[1], name=app_name + '-' + service_name)
+        items.append(dict(title="The application has been bounded to the service", subtitle="", icon=ICON_INFO))
+
+
 class ActionCommand(Command):
     def __init__(self, action_name, resource, manager_name, function, description, modifier, subtitle):
         self.manager_name = manager_name
@@ -237,7 +269,9 @@ class CommandManager:
         for item in commands_list:
             result[item['name']] = self.__build_command_from_item(item)
         result['stats-app'] = AppStatsCommand()
+        result['list-bindable-apps'] = ListAppsToBind(result['apps'])
         result['push'] = PushCommand()
+        result['bind-app'] = BindAppToService()
         return result
 
 
