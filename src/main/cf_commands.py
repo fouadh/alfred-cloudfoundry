@@ -2,10 +2,42 @@ import json
 import os
 import traceback
 
+import urllib
+import base64
+
 import yaml
 from cloudfoundry_client.operations.push import push
 from cloudfoundry_client.client import CloudFoundryClient
 from workflow import ICON_ERROR, ICON_INFO
+
+
+class ImageCache:
+    def __init__(self, base_directory, url_loader=urllib.urlretrieve):
+        if not os.path.exists(base_directory):
+            os.makedirs(base_directory)
+        self.base_directory = base_directory
+        self.url_loader = url_loader
+
+    def __load_image_from_url(self, guid, url):
+        file_path = self.base_directory + '/' + guid + '.png'
+        self.url_loader(url, file_path)
+
+    def __load_image_from_base64(self, guid, data):
+        file_path = self.base_directory + '/' + guid + '.png'
+        if not (os.path.exists(file_path)):
+            image_data = base64.b64decode(data.split(',')[1].strip())
+            with(open(file_path, 'wb')) as f:
+                f.write(image_data)
+
+    def load_image(self, guid, base64_data_or_url):
+        if base64_data_or_url.startswith('http'):
+            self.__load_image_from_url(guid, base64_data_or_url)
+            return True
+        elif base64_data_or_url.startswith('data:image'):
+            self.__load_image_from_base64(guid, base64_data_or_url)
+            return True
+        else:
+            return False
 
 
 class Command:
@@ -35,13 +67,14 @@ class Command:
 
 
 class ListResourcesCommand(Command):
-    def __init__(self, name, resource_type, manager_getter, item_builder):
+    def __init__(self, name, resource_type, manager_getter, item_builder, cache):
         Command.__init__(self)
         self.name = name
         self.manager_getter = manager_getter
         self.item_builder = item_builder
         self.resource_type = resource_type
         self.type = '__list'
+        self.cache = cache
 
     def do_execute(self, client, credentials, args):
         items = list()
@@ -51,6 +84,16 @@ class ListResourcesCommand(Command):
             item = self.item_builder(resource)
             item['__json'] = json.dumps(resource)
             item['__type'] = self.resource_type
+
+            # if an image is available, use it as the icon
+            if 'entity' in resource and 'extra' in resource['entity']:
+                extra = resource['entity']['extra']
+                extra_data = json.loads(extra)
+                if 'imageUrl' in extra_data:
+                    image_url = extra_data['imageUrl']
+                    guid = resource['metadata']['guid']
+                    if self.cache.load_image(guid, image_url):
+                        item['icon'] = resource['metadata']['guid'] + '.png'
 
             if item['subtitle'] is None:
                 item['subtitle'] = ''
@@ -128,7 +171,8 @@ class PushCommand(Command):
 
 class CommandManager:
 
-    def __init__(self):
+    def __init__(self, cache_dir=None):
+        self.cache = ImageCache(base_directory=cache_dir)
         self.commands = self.__load_commands()
 
     def can_execute(self, command):
@@ -149,7 +193,7 @@ class CommandManager:
             return None
 
     def __build_list_command(self, name, resource_type, manager, title_property, subtitle_property):
-        return ListResourcesCommand(name=name, resource_type=resource_type,
+        return ListResourcesCommand(name=name, resource_type=resource_type, cache=self.cache,
                                     manager_getter=lambda client: vars(client.v2)[manager],
                                     item_builder=lambda item: dict(
                                         title=self.__get_entity_property(item, title_property),
@@ -191,7 +235,8 @@ class CommandManager:
         return result
 
 
-cmd_manager = CommandManager()
+current_dir = os.path.dirname(os.path.realpath(__file__))
+cmd_manager = CommandManager(cache_dir=current_dir + '/thumbs')
 
 
 def can_execute(command):

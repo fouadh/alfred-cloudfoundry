@@ -98,6 +98,7 @@ def parse_external_args(external_args):
 def clear_caches(workflow, notify_user=False):
     try:
         workflow.clear_cache()
+        clear_space(workflow)
     except:
         log.debug("Cache error when trying to clean it")
     if notify_user:
@@ -107,13 +108,17 @@ def clear_caches(workflow, notify_user=False):
 def clear_credentials(workflow, command=None):
     workflow.settings['cf_endpoint'] = None
     workflow.settings['cf_login'] = None
-    if 'cf_space' in workflow.settings:
-        workflow.settings['cf_space'] = None
+    clear_space(workflow)
     try:
         workflow.delete_password('cf_password')
     except PasswordNotFound:
         log.debug('Password not found')
     notify.notify(title="Credentials have been cleared")
+
+
+def clear_space(workflow):
+    if 'cf_space' in workflow.settings:
+        workflow.settings['cf_space'] = None
 
 
 def target_space(workflow, command):

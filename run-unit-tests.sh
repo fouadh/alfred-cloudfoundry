@@ -2,6 +2,6 @@
 
 echo "Running the unit tests..."
 cd src/test
-pytest
+pytest -s
 echo "That's All, Folks!"
 
