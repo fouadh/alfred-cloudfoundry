@@ -20,7 +20,9 @@ class ImageCache:
 
     def __load_image_from_url(self, guid, url):
         file_path = self.base_directory + '/' + guid + '.png'
-        self.url_loader(url, file_path)
+        if not (os.path.exists(file_path)):
+            self.url_loader(url, file_path)
+        return file_path
 
     def __load_image_from_base64(self, guid, data):
         file_path = self.base_directory + '/' + guid + '.png'
@@ -28,16 +30,15 @@ class ImageCache:
             image_data = base64.b64decode(data.split(',')[1].strip())
             with(open(file_path, 'wb')) as f:
                 f.write(image_data)
+        return file_path
 
     def load_image(self, guid, base64_data_or_url):
         if base64_data_or_url.startswith('http'):
-            self.__load_image_from_url(guid, base64_data_or_url)
-            return True
+            return self.__load_image_from_url(guid, base64_data_or_url)
         elif base64_data_or_url.startswith('data:image'):
-            self.__load_image_from_base64(guid, base64_data_or_url)
-            return True
+            return self.__load_image_from_base64(guid, base64_data_or_url)
         else:
-            return False
+            return None
 
 
 class Command:
@@ -76,29 +77,35 @@ class ListResourcesCommand(Command):
         self.type = '__list'
         self.cache = cache
 
+    def load_image(self, guid, extra_data):
+        image_url = extra_data['imageUrl']
+        image_path = self.cache.load_image(guid, image_url)
+        return image_path
+
+    def resource_to_item(self, resource):
+        item = self.item_builder(resource)
+        item['__json'] = json.dumps(resource)
+        item['__type'] = self.resource_type
+
+        # if an image is available, use it as the icon
+        if 'entity' in resource and 'extra' in resource['entity']:
+            extra = resource['entity']['extra']
+            if extra:
+                extra_data = json.loads(extra)
+                if 'imageUrl' in extra_data:
+                    item['icon'] = self.load_image(resource['metadata']['guid'], extra_data)
+
+        if item['subtitle'] is None:
+            item['subtitle'] = ''
+
+        return item
+
     def do_execute(self, client, credentials, args):
         items = list()
         manager = self.manager_getter(client)
 
         for resource in manager:
-            item = self.item_builder(resource)
-            item['__json'] = json.dumps(resource)
-            item['__type'] = self.resource_type
-
-            # if an image is available, use it as the icon
-            if 'entity' in resource and 'extra' in resource['entity']:
-                extra = resource['entity']['extra']
-                extra_data = json.loads(extra)
-                if 'imageUrl' in extra_data:
-                    image_url = extra_data['imageUrl']
-                    guid = resource['metadata']['guid']
-                    if self.cache.load_image(guid, image_url):
-                        item['icon'] = resource['metadata']['guid'] + '.png'
-
-            if item['subtitle'] is None:
-                item['subtitle'] = ''
-
-            items.append(item)
+            items.append(self.resource_to_item(resource))
 
         if len(items) == 0:
             items.append(dict(title="No " + self.resource_type + " found", subtitle="", icon=None))
@@ -224,7 +231,6 @@ class CommandManager:
 
     def __load_commands(self):
         result = dict()
-        current_dir = os.path.dirname(os.path.realpath(__file__))
         stream = file(current_dir + '/commands.yml', 'r')
         config = yaml.safe_load(stream)
         commands_list = config['commands']
