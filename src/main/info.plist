@@ -111,6 +111,16 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>9A93E737-1D33-40D2-8321-856D94B2D90A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 		</array>
 		<key>6D9AD98E-CF0F-4614-B066-BF03A36441F1</key>
 		<array>
@@ -164,6 +174,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>9A93E737-1D33-40D2-8321-856D94B2D90A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>EE2B1EBC-5419-4195-A949-F2C45582D5DA</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>A1E8AC74-799C-4AFE-9216-5FA540BCD4BB</key>
 		<array>
 			<dict>
@@ -190,11 +213,37 @@
 				<false/>
 			</dict>
 		</array>
+		<key>AF518ADB-22D7-4CBB-AE2A-238A76E72D27</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>91E9ABF2-6EB4-4054-8944-9928961FCB8D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>B2BD661E-E3F5-4410-8503-98CB90FF4E7A</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>5BCBD803-965B-4B2F-8A98-7C06334EB104</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>B6BA5609-B7FE-486D-A1A2-59E7902E3B35</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>AF518ADB-22D7-4CBB-AE2A-238A76E72D27</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -351,6 +400,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>C0A1EE74-61E3-4827-BC3B-00F976B47E72</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>EE2B1EBC-5419-4195-A949-F2C45582D5DA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B6BA5609-B7FE-486D-A1A2-59E7902E3B35</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -547,6 +609,24 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>command</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>C0AB2B8A-437B-451E-B5C2-34C1A234F41D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>inputstring</key>
 				<string>{query}</string>
 				<key>matchcasesensitive</key>
@@ -560,24 +640,6 @@
 			<string>alfred.workflow.utility.filter</string>
 			<key>uid</key>
 			<string>7A561D17-9607-43EC-97D9-DBE33B1E364F</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argument</key>
-				<string></string>
-				<key>variables</key>
-				<dict>
-					<key>command</key>
-					<string>{query}</string>
-				</dict>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
-			<key>uid</key>
-			<string>C0AB2B8A-437B-451E-B5C2-34C1A234F41D</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -655,6 +717,72 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>/usr/bin/python cf.py "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>91E9ABF2-6EB4-4054-8944-9928961FCB8D</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>service name</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Give a name to the service instance</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>B6BA5609-B7FE-486D-A1A2-59E7902E3B35</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argument</key>
 				<string></string>
 				<key>variables</key>
@@ -669,6 +797,61 @@
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
 			<string>CC444CDF-BDFB-4C6E-8FBD-9B9C32586B71</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>inputstring</key>
+				<string>{query}</string>
+				<key>matchcasesensitive</key>
+				<false/>
+				<key>matchmode</key>
+				<integer>2</integer>
+				<key>matchstring</key>
+				<string>create-service.*</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>9A93E737-1D33-40D2-8321-856D94B2D90A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>other-args</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>AF518ADB-22D7-4CBB-AE2A-238A76E72D27</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>command</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>EE2B1EBC-5419-4195-A949-F2C45582D5DA</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -702,7 +885,7 @@
 				<key>fixedorder</key>
 				<false/>
 				<key>items</key>
-				<string>[{"title":"Cloud Foundry Applications","arg":"apps"},{"title":"Cloud Foundry Services","arg":"services"},{"title":"Cloud Foundry Routes","arg":"routes"},{"title":"Cloud Foundry Buildpacks","arg":"buildpacks"},{"title":"Cloud Foundry Service Bindings","arg":"service-bindings"},{"title":"Cloud Foundry Service Brokers","arg":"service-brokers"},{"title":"Cloud Foundry Service Instances","arg":"service-instances"},{"title":"Cloud Foundry Spaces","arg":"spaces"},{"title":"Cloud Foundry Service Keys","arg":"service-keys"},{"title":"Cloud Foundry Service Plans","arg":"service-plans"},{"title":"Cloud Foundry User Provided Instances","arg":"ups"},{"title":"Cloud Foundry Stacks","arg":"stacks"},{"title":"Cloud Foundry Organizations","arg":"organizations"},{"title":"Cloud Foundry Shared Domains","arg":"shared-domains"},{"title":"Cloud Foundry Private Domains","arg":"private-domains"}]</string>
+				<string>[{"title":"Cloud Foundry Applications","arg":"apps"},{"title":"Cloud Foundry Services","arg":"services"},{"title":"Cloud Foundry Routes","arg":"routes"},{"title":"Cloud Foundry Buildpacks","arg":"buildpacks"},{"title":"Cloud Foundry Service Bindings","arg":"service-bindings"},{"title":"Cloud Foundry Service Brokers","arg":"service-brokers"},{"title":"Cloud Foundry Service Instances","arg":"service-instances"},{"title":"Cloud Foundry Spaces","arg":"spaces"},{"title":"Cloud Foundry Service Keys","arg":"service-keys"},{"title":"Cloud Foundry Service Plans","arg":"service-plans"},{"title":"Cloud Foundry User Provided Instances","arg":"ups"},{"title":"Cloud Foundry Stacks","arg":"stacks"},{"title":"Cloud Foundry Organizations","arg":"organizations"},{"title":"Cloud Foundry Shared Domains","arg":"shared-domains"},{"title":"Cloud Foundry Private Domains","arg":"private-domains"},{"title":"Reset Space Target","arg":"clear-target-space"}]</string>
 				<key>keyword</key>
 				<string>cf</string>
 				<key>runningsubtext</key>
@@ -1073,6 +1256,13 @@
 			<key>ypos</key>
 			<integer>580</integer>
 		</dict>
+		<key>91E9ABF2-6EB4-4054-8944-9928961FCB8D</key>
+		<dict>
+			<key>xpos</key>
+			<integer>2530</integer>
+			<key>ypos</key>
+			<integer>430</integer>
+		</dict>
 		<key>9620BA59-2F89-4878-871E-5996D0DDCCE9</key>
 		<dict>
 			<key>xpos</key>
@@ -1086,6 +1276,13 @@
 			<integer>560</integer>
 			<key>ypos</key>
 			<integer>250</integer>
+		</dict>
+		<key>9A93E737-1D33-40D2-8321-856D94B2D90A</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1910</integer>
+			<key>ypos</key>
+			<integer>460</integer>
 		</dict>
 		<key>A1E8AC74-799C-4AFE-9216-5FA540BCD4BB</key>
 		<dict>
@@ -1101,12 +1298,26 @@
 			<key>ypos</key>
 			<integer>850</integer>
 		</dict>
+		<key>AF518ADB-22D7-4CBB-AE2A-238A76E72D27</key>
+		<dict>
+			<key>xpos</key>
+			<integer>2410</integer>
+			<key>ypos</key>
+			<integer>460</integer>
+		</dict>
 		<key>B2BD661E-E3F5-4410-8503-98CB90FF4E7A</key>
 		<dict>
 			<key>xpos</key>
 			<integer>120</integer>
 			<key>ypos</key>
 			<integer>1000</integer>
+		</dict>
+		<key>B6BA5609-B7FE-486D-A1A2-59E7902E3B35</key>
+		<dict>
+			<key>xpos</key>
+			<integer>2190</integer>
+			<key>ypos</key>
+			<integer>430</integer>
 		</dict>
 		<key>B8233E5D-9805-4534-8079-6E9EBBACAED7</key>
 		<dict>
@@ -1198,6 +1409,13 @@
 			<integer>490</integer>
 			<key>ypos</key>
 			<integer>710</integer>
+		</dict>
+		<key>EE2B1EBC-5419-4195-A949-F2C45582D5DA</key>
+		<dict>
+			<key>xpos</key>
+			<integer>2050</integer>
+			<key>ypos</key>
+			<integer>460</integer>
 		</dict>
 	</dict>
 	<key>webaddress</key>

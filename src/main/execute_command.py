@@ -43,6 +43,11 @@ def build_no_credentials_message():
 
 def main(workflow):
     command = os.getenv('command')
+    other_args = os.getenv('other-args')
+
+    if other_args:
+        command = command + ' ' + other_args
+
     elements = command.split(' ')
     command_name = elements.pop(0)
     execute_list_command(workflow, command_name, elements)

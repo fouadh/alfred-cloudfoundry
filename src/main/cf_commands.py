@@ -128,6 +128,23 @@ class ListAppsToBind(Command):
         return items
 
 
+class ListServicePlans(Command):
+    def __init__(self, plans_command):
+        Command.__init__(self)
+        self.type = '__list-service-plans'
+        self.plans_command = plans_command
+
+    def do_execute(self, client, credentials, args):
+        items = self.plans_command.execute(credentials, args)
+        result = list()
+        for item in items:
+            if '__json' in item:
+                obj = json.loads(item['__json'])
+                if obj['entity']['service_guid'] == args[0]:
+                    result.append(item)
+        return result
+
+
 class BindAppToService(Command):
     def __init__(self):
         Command.__init__(self)
@@ -208,6 +225,22 @@ class PushCommand(Command):
         return items
 
 
+class CreateServiceInstance(Command):
+    def __init__(self):
+        self.type = '__create-service-instance'
+
+    def do_execute(self, client, credentials, args):
+        items = list()
+        if 'space' in credentials and credentials['space']:
+            client.v2.service_instances.create(credentials['space'], args[1], args[0])
+            items.append(dict(title="The service instance has been created", subtitle="", icon=ICON_INFO))
+        else:
+            items.append(dict(title="Please target a space before creating a service instance",
+                              subtitle="Display the list of spaces, then press Cmd and select the space",
+                              icon=ICON_ERROR))
+        return items
+
+
 class CommandManager:
 
     def __init__(self, cache_dir=None):
@@ -272,6 +305,8 @@ class CommandManager:
         result['list-bindable-apps'] = ListAppsToBind(result['apps'])
         result['push'] = PushCommand()
         result['bind-app'] = BindAppToService()
+        result['list-service-plans'] = ListServicePlans(result['service-plans'])
+        result['create-service-instance'] = CreateServiceInstance()
         return result
 
 

@@ -39,37 +39,47 @@ def render_resources(workflow, resources):
 
 
 def add_item_for_resource(resource, workflow):
-    text_to_copy = None
+    json_resource = None
     if '__json' in resource:
-        text_to_copy = resource['__json']
+        json_resource = resource['__json']
     else:
-        text_to_copy = resource["subtitle"]
+        json_resource = resource["subtitle"]
 
     actionable = False
     arg = None
 
-    if '__type' in resource and resource['__type'] == 'bindable app':
-        actionable = True
-        obj = json.loads(text_to_copy)
+    if '__type' in resource:
+        obj = json.loads(json_resource)
         guid = obj["metadata"]["guid"]
-        arg = 'bind-app ' + guid + ' ' + resource['__service_guid']
+        if resource['__type'] == 'bindable app':
+            arg = 'bind-app ' + guid + ' ' + guid
+            actionable = True
+        elif resource['__type'] == 'service plan':
+            arg = 'create-service-instance ' + guid
+            actionable = True
 
     item = workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"],
                              valid=actionable,
-                             copytext=text_to_copy, arg=arg)
+                             copytext=json_resource, arg=arg)
 
-    if '__type' in resource and text_to_copy:
+    if '__type' in resource and json_resource:
         actions = cmd_manager.find_actions_by_resource(resource['__type'])
         if resource['__type'] == 'application':
-            customize_application_item(item, text_to_copy)
+            customize_application_item(item, json_resource)
 
         if resource['__type'] == 'service instance':
-            obj = json.loads(text_to_copy)
+            obj = json.loads(json_resource)
             guid = obj["metadata"]["guid"]
             item.add_modifier('cmd', subtitle='Bind to an application', arg='list-bindable-apps ' + guid)
 
+        if resource['__type'] == 'service':
+            obj = json.loads(json_resource)
+            guid = obj["metadata"]["guid"]
+            item.add_modifier('cmd', subtitle='Create an instance', arg='list-service-plans ' + guid)
+            workflow.clear_cache(lambda filename: filename.startswith('list-service-plans'))
+
         if len(actions) > 0:
-            obj = json.loads(text_to_copy)
+            obj = json.loads(json_resource)
             guid = obj["metadata"]["guid"]
             for action in actions:
                 if action.evaluate_condition(obj):
@@ -145,6 +155,11 @@ def target_space(workflow, command):
     notify.notify(title="The space has been targeted")
 
 
+def clear_target_space(workflow, command):
+    workflow.settings['cf_space'] = None
+    notify.notify(title="No more target is set by default now")
+
+
 def setup_credentials(workflow):
     data = workflow.args[0].split(" ")
     if len(data) != 2:
@@ -208,7 +223,8 @@ commands = {
     'set-credentials': setup_credentials,
     'clear-caches': clear_caches_and_notify,
     'clear-credentials': clear_credentials,
-    'target-space': target_space
+    'target-space': target_space,
+    'clear-target-space': clear_target_space
 }
 
 
