@@ -57,6 +57,12 @@ def add_item_for_resource(resource, workflow):
         elif resource['__type'] == 'service plan':
             arg = 'create-service-instance ' + guid
             actionable = True
+        elif resource['__type'] == 'application':
+            arg = 'open-app ' + guid
+            actionable = True
+        elif resource['__type'] == 'http':
+            actionable = True
+            arg = ''
 
     item = workflow.add_item(title=resource["title"], subtitle=resource["subtitle"], icon=resource["icon"],
                              valid=actionable,
@@ -90,6 +96,7 @@ def customize_application_item(item, json_str):
     obj = json.loads(json_str)
     guid = obj["metadata"]["guid"]
     item.add_modifier('alt', subtitle='Get the stats of this application', arg='stats-app ' + guid)
+    item.add_modifier('fn', subtitle='Get recent logs', arg='get-recent-logs ' + guid)
 
 
 def prepare_items_to_render(items, query):

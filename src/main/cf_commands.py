@@ -195,6 +195,24 @@ class ActionCommand(Command):
         return items
 
 
+class GetRecentLogs(Command):
+    def __init__(self):
+        self.type = '__recent-logs'
+
+    def do_execute(self, client, credentials, args):
+        items = list()
+        app = client.v2.apps[args[0]]
+        text = ""
+        for log in app.recent_logs():
+            if log:
+                text = text + str(log) + "\n"
+
+        items.append(
+            dict(title="The recent logs have been retrieved", subtitle="Press Cmd+C to save them in the clipboard",
+                 icon=ICON_INFO, __json=text))
+        return items
+
+
 class AppStatsCommand(Command):
     def __init__(self):
         self.type = '__custom'
@@ -307,6 +325,7 @@ class CommandManager:
         result['bind-app'] = BindAppToService()
         result['list-service-plans'] = ListServicePlans(result['service-plans'])
         result['create-service-instance'] = CreateServiceInstance()
+        result['get-recent-logs'] = GetRecentLogs()
         return result
 
 

@@ -21,6 +21,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>254A9F67-98CA-4EBF-8A0B-3BFBF494147A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>6FFEB353-32F9-44B0-A27F-B3F737E73995</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>40927239-2E80-426B-9E37-207840C06E9C</key>
 		<array>
 			<dict>
@@ -101,6 +114,16 @@
 		</array>
 		<key>6B8B0122-79EA-458D-9E27-CD04D0FE5FB4</key>
 		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>254A9F67-98CA-4EBF-8A0B-3BFBF494147A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 			<dict>
 				<key>destinationuid</key>
 				<string>7A561D17-9607-43EC-97D9-DBE33B1E364F</string>
@@ -432,6 +455,44 @@
 	<string>Cloud Foundry</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>6FFEB353-32F9-44B0-A27F-B3F737E73995</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>inputstring</key>
+				<string>{query}</string>
+				<key>matchcasesensitive</key>
+				<false/>
+				<key>matchmode</key>
+				<integer>2</integer>
+				<key>matchstring</key>
+				<string>http.*</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>254A9F67-98CA-4EBF-8A0B-3BFBF494147A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -1186,6 +1247,13 @@
 			<key>ypos</key>
 			<integer>610</integer>
 		</dict>
+		<key>254A9F67-98CA-4EBF-8A0B-3BFBF494147A</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1920</integer>
+			<key>ypos</key>
+			<integer>80</integer>
+		</dict>
 		<key>40927239-2E80-426B-9E37-207840C06E9C</key>
 		<dict>
 			<key>xpos</key>
@@ -1241,6 +1309,13 @@
 			<integer>60</integer>
 			<key>ypos</key>
 			<integer>670</integer>
+		</dict>
+		<key>6FFEB353-32F9-44B0-A27F-B3F737E73995</key>
+		<dict>
+			<key>xpos</key>
+			<integer>2110</integer>
+			<key>ypos</key>
+			<integer>50</integer>
 		</dict>
 		<key>7A561D17-9607-43EC-97D9-DBE33B1E364F</key>
 		<dict>
