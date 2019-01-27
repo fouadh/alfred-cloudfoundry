@@ -140,7 +140,7 @@ def clear_caches(workflow, notify_user=False):
         notify.notify(title="Caches have been cleared")
 
 
-def clear_credentials(workflow):
+def clear_credentials(workflow, command):
     workflow.settings['cf_endpoint'] = None
     workflow.settings['cf_login'] = None
     clear_space(workflow)
@@ -167,7 +167,7 @@ def clear_target_space(workflow, command):
     notify.notify(title="No more target is set by default now")
 
 
-def setup_credentials(workflow):
+def setup_credentials(workflow, command):
     data = workflow.args[0].split(" ")
     if len(data) != 2:
         items = list()
@@ -183,7 +183,7 @@ def setup_credentials(workflow):
     return None
 
 
-def setup_endpoint(workflow):
+def setup_endpoint(workflow, command):
     workflow.settings['cf_endpoint'] = workflow.args[0]
     clear_caches(workflow)
     notify.notify('The endpoint has been saved')
@@ -221,7 +221,7 @@ def display_progress_message(workflow):
     workflow.send_feedback()
 
 
-def clear_caches_and_notify(workflow):
+def clear_caches_and_notify(workflow, command):
     clear_caches(workflow, True)
 
 
