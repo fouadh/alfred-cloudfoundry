@@ -35,6 +35,8 @@ library to execute the requests to Cloud Foundry.
   cf setendpoint <endpoint>
 ```
 
+![image](./doc/images/cf-setendpoint.gif)
+
 - Setup Cloud Foundry credentials
 
 ```
@@ -49,11 +51,13 @@ library to execute the requests to Cloud Foundry.
 
 - Push an application (via a manifest)
 
-(Note that a space must have been targeted before pushing)
+Before pushing an application, a space must have been targeted.
 
 From the Finder
 
 From Alfred
+
+![image](./doc/images/cf-push1.gif)
 
 - Start/Stop an application
 
@@ -75,7 +79,13 @@ Note that this can be a lenghty operation since a droplet must be recreated on t
 
 - Get the stats of an application
 
-For started applications, you can press the **Alt** key and press enter to retrived its stats.
+For started applications, you can press the **Alt** key and press enter to retrieve its stats.
+
+When the stats are obtained, press **Cmd+C** to save them in the clipboard.
+
+- Get the recent logs of an application
+
+For started applications, you can press the **Fn** key and press enter to retrieve its recent logs.
 
 When the stats are obtained, press **Cmd+C** to save them in the clipboard.
 
@@ -87,13 +97,21 @@ When the stats are obtained, press **Cmd+C** to save them in the clipboard.
 
 ![image](./doc/images/cf-services.gif)
 
-- List services plans
+- Create a service instance
+
+List all the available services, press the **Cmd** key to select the service you want to create. Then, the list of
+available plans will be listed: select the one you want to create. Then, enter the name of the service instance and Return.
 
 - List services instances
 
 ![image](./doc/images/cf-services-instances.gif)
 
 - Remove a service instance
+
+- Bind a service instance to an application
+
+List the services instances and press the **Cmd** key to select the instance you want to bind. Then, the list of applications
+will be listed: just select the one you want to bind with the previous selected service instance.
 
 - List services bindings
 
