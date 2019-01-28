@@ -52,7 +52,7 @@ def add_item_for_resource(resource, workflow):
         obj = json.loads(json_resource)
         guid = obj["metadata"]["guid"]
         if resource['__type'] == 'bindable app':
-            arg = 'bind-app ' + guid + ' ' + guid
+            arg = 'bind-app ' + guid + ' ' + resource['__service_guid']
             actionable = True
         elif resource['__type'] == 'service plan':
             arg = 'create-service-instance ' + guid

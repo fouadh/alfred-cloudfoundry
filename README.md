@@ -45,6 +45,8 @@ library to execute the requests to Cloud Foundry.
 
 *Note:* the password is stored in the Keychain, not in clear.
 
+![image](./doc/images/cf-setcredentials.gif)
+
 - List applications
 
 ![image](./doc/images/cf-apps.gif)
@@ -53,9 +55,15 @@ library to execute the requests to Cloud Foundry.
 
 Before pushing an application, a space must have been targeted.
 
-From the Finder
+#### From the Finder
 
-From Alfred
+You can select a manifest file from the finder and use Alfred to push the associated application(s) in Cloud Foundry.
+
+![image](./doc/images/cf-push2.gif)
+
+#### From Alfred
+
+Or you can find a manifest directly from Alfred before pushing the associated application(s).
 
 ![image](./doc/images/cf-push1.gif)
 
@@ -71,11 +79,14 @@ Note that starting an application may take a few moment so just be patient.
 
 Press **Shift** and select the application to remove.
 
+![image](./doc/images/cf-remove-app.gif)
+
 - Restage an application
 
 Press **Ctrl** and select the application to restage.
 
 Note that this can be a lenghty operation since a droplet must be recreated on the platform.
+
 
 - Get the stats of an application
 
@@ -93,6 +104,12 @@ When the stats are obtained, press **Cmd+C** to save them in the clipboard.
 
 ![image](./doc/images/cf-routes.gif)
 
+- Remove a route
+
+Use the **Shift** key and select the route to remove.
+
+![image](./doc/images/cf-remove-route.gif)
+
 - List services
 
 ![image](./doc/images/cf-services.gif)
@@ -102,11 +119,17 @@ When the stats are obtained, press **Cmd+C** to save them in the clipboard.
 List all the available services, press the **Cmd** key to select the service you want to create. Then, the list of
 available plans will be listed: select the one you want to create. Then, enter the name of the service instance and Return.
 
+![image](./doc/images/cf-create-service-instance.gif)
+
 - List services instances
 
 ![image](./doc/images/cf-services-instances.gif)
 
 - Remove a service instance
+
+Press the **Shift** key and select the service instance to remove.
+
+![image](./doc/images/cf-removec-service-instance.gif)
 
 - Bind a service instance to an application
 
@@ -115,9 +138,21 @@ will be listed: just select the one you want to bind with the previous selected 
 
 - List services bindings
 
+![image](./doc/images/cf-services-bindings.gif)
+
+- Remove a service binding
+
+Use the **Shift** key to select a service binding to remove.
+
+![image](./doc/images/cf-remove-service-binding.gif)
+
 - List shared domains
 
+![image](./doc/images/cf-shared-domains.gif)
+
 - List private domains
+
+![image](./doc/images/cf-private-domains.gif)
 
 - List spaces
 
@@ -127,11 +162,19 @@ will be listed: just select the one you want to bind with the previous selected 
 
 Use the Cmd key to target a space: it will be used for push operations.
 
+![image](./doc/images/cf-target-space.gif)
+
 - List organizations
+
+![image](./doc/images/cf-organizations.gif)
 
 - List stacks
 
+![image](./doc/images/cf-stacks.gif)
+
 - List buildpacks
+
+![image](./doc/images/cf-buildpacks.gif)
 
 - List user provided services
 
