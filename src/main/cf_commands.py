@@ -8,6 +8,7 @@ import base64
 import yaml
 from cloudfoundry_client.operations.push import push
 from cloudfoundry_client.client import CloudFoundryClient
+from cloudfoundry_client.errors import InvalidStatusCode
 from workflow import ICON_ERROR, ICON_INFO
 
 
@@ -50,11 +51,14 @@ class Command:
             client = self.__build_client(credentials)
             return self.do_execute(client, credentials, args)
         except BaseException as e:
-            traceback.print_exc()
-            items = list()
-            items.append(
-                dict(title="The command cannot be executed", subtitle=str(e), icon=ICON_ERROR))
-            return items
+            return self.do_handle_error(e)
+
+    def do_handle_error(self, e):
+        traceback.print_exc()
+        items = list()
+        items.append(
+            dict(title="The command cannot be executed", subtitle=str(e), icon=ICON_ERROR))
+        return items
 
     def do_execute(self, client, credentials, args):
         pass
@@ -159,6 +163,17 @@ class BindAppToService(Command):
 
         client.v2.service_bindings.create(args[0], args[1], name=app_name + '-' + service_name)
         items.append(dict(title="The application has been bounded to the service", subtitle="", icon=ICON_INFO))
+
+    def do_handle_error(self, e):
+        if isinstance(e, InvalidStatusCode):
+            if str(e.status_code) == '400':
+                body = e.body
+                if body['error_code'] == 'CF-ServiceBindingAppServiceTaken':
+                    items = list()
+                    items.append(dict(title="The app is bound to the service", subtitle="", icon=None))
+                    return items
+
+        return Command.do_handle_error(self, e)
 
 
 class ActionCommand(Command):

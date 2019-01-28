@@ -8,6 +8,7 @@ log = None
 
 def execute_list_command(workflow, command_name, args):
     def execution_wrapper():
+        #print >> open('logs.txt', 'a+'), "Execute command: " + command_name
         return execute(command_name, credentials, args)
 
     credentials = find_credentials(workflow)
