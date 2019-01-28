@@ -52,6 +52,15 @@ commands:
     manager: routes
     title: host
 
+  - type: action
+    name: remove-route
+    description: Remove
+    manager: routes
+    function: remove
+    resource: route
+    subtitle: Remove this route
+    modifier: shift
+
   - name: services
     type: list
     resource: service

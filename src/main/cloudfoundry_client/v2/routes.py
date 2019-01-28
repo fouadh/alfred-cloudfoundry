@@ -16,3 +16,7 @@ class RouteManager(EntityManager):
     def create_host_route(self, domain_guid, space_guid, host, path=''):
         request = dict(domain_guid=domain_guid, space_guid=space_guid, host=host, path=path)
         return super(RouteManager, self)._create(request)
+
+    # FHA code
+    def remove(self, route_guid):
+        super(RouteManager, self)._remove(route_guid)
