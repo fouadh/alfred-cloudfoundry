@@ -129,12 +129,14 @@ available plans will be listed: select the one you want to create. Then, enter t
 
 Press the **Shift** key and select the service instance to remove.
 
-![image](./doc/images/cf-removec-service-instance.gif)
+![image](./doc/images/cf-remove-service-instance.gif)
 
 - Bind a service instance to an application
 
 List the services instances and press the **Cmd** key to select the instance you want to bind. Then, the list of applications
 will be listed: just select the one you want to bind with the previous selected service instance.
+
+![image](./doc/images/cf-bind-service.gif)
 
 - List services bindings
 
@@ -178,11 +180,23 @@ Use the Cmd key to target a space: it will be used for push operations.
 
 - List user provided services
 
+![image](./doc/images/cf-cups.gif)
+
 - List service brokers
 
 - Remove a service broker
 
 # Testing
+
+## Unit tests
+
+To run the unit test, execute the command:
+
+```bash
+./run-unit-tests.sh
+```
+
+## End to end tests
 
 To execute the end to end tests for this workflow:
 
@@ -191,17 +205,15 @@ To execute the end to end tests for this workflow:
 
 2. Install and run [mountebank](http://www.mbtest.org) on port 2525 (which is normally the default)
 
-```
+```bash
 npm install -g mountebank
 mb
 ```
 
 Ports 3001 and 4001 must also be available since they are used to stub UAA and the Cloud Foundry API server.
 
-3. Execute the following commands:
+3. Execute the following command:
 
-```javascript
-cd src/test
-npm install
-npm run cucumber
+```bash
+./run-e2e.sh
 ```
