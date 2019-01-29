@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+./build.sh
 echo "Running the tests..."
 
 cd src/e2e

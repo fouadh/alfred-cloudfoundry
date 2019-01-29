@@ -87,7 +87,6 @@ Press **Ctrl** and select the application to restage.
 
 Note that this can be a lenghty operation since a droplet must be recreated on the platform.
 
-
 - Get the stats of an application
 
 For started applications, you can press the **Alt** key and press enter to retrieve its stats.
