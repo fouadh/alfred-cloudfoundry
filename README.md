@@ -29,7 +29,7 @@ If you're using a proxy, configure it in the **HTTP_PROXY** and **HTTPS_PROXY** 
 Under the hood, this framework uses the [cf-client-python](https://github.com/cloudfoundry-community/cf-python-client) 
 library to execute the requests to Cloud Foundry. 
 
-- Setup Cloud Foundry endpoint
+### Setup Cloud Foundry endpoint
 
 ```
   cf setendpoint <endpoint>
@@ -37,7 +37,7 @@ library to execute the requests to Cloud Foundry.
 
 ![image](./doc/images/cf-setendpoint.gif)
 
-- Setup Cloud Foundry credentials
+### Setup Cloud Foundry credentials
 
 ```
   cf setcredentials <login> <password>
@@ -47,27 +47,27 @@ library to execute the requests to Cloud Foundry.
 
 ![image](./doc/images/cf-setcredentials.gif)
 
-- List applications
+### List applications
 
 ![image](./doc/images/cf-apps.gif)
 
-- Push an application (via a manifest)
+### Push an application (via a manifest)
 
 Before pushing an application, a space must have been targeted.
 
-#### From the Finder
+- From the Finder
 
 You can select a manifest file from the finder and use Alfred to push the associated application(s) in Cloud Foundry.
 
 ![image](./doc/images/cf-push2.gif)
 
-#### From Alfred
+- From Alfred
 
 Or you can find a manifest directly from Alfred before pushing the associated application(s).
 
 ![image](./doc/images/cf-push1.gif)
 
-- Start/Stop an application
+### Start/Stop an application
 
 Press **Cmd** and select an application to start (or stop) it depending on its state.
 
@@ -75,115 +75,115 @@ Note that starting an application may take a few moment so just be patient.
 
 ![image](./doc/images/cf-stop-app.gif)
 
-- Remove an application
+### Remove an application
 
 Press **Shift** and select the application to remove.
 
 ![image](./doc/images/cf-remove-app.gif)
 
-- Restage an application
+### Restage an application
 
 Press **Ctrl** and select the application to restage.
 
 Note that this can be a lenghty operation since a droplet must be recreated on the platform.
 
-- Get the stats of an application
+### Get the stats of an application
 
 For started applications, you can press the **Alt** key and press enter to retrieve its stats.
 
 When the stats are obtained, press **Cmd+C** to save them in the clipboard.
 
-- Get the recent logs of an application
+### Get the recent logs of an application
 
 For started applications, you can press the **Fn** key and press enter to retrieve its recent logs.
 
 When the stats are obtained, press **Cmd+C** to save them in the clipboard.
 
-- List routes
+### List routes
 
 ![image](./doc/images/cf-routes.gif)
 
-- Remove a route
+### Remove a route
 
 Use the **Shift** key and select the route to remove.
 
 ![image](./doc/images/cf-remove-route.gif)
 
-- List services
+### List services
 
 ![image](./doc/images/cf-services.gif)
 
-- Create a service instance
+### Create a service instance
 
 List all the available services, press the **Cmd** key to select the service you want to create. Then, the list of
 available plans will be listed: select the one you want to create. Then, enter the name of the service instance and Return.
 
 ![image](./doc/images/cf-create-service-instance.gif)
 
-- List services instances
+### List services instances
 
 ![image](./doc/images/cf-services-instances.gif)
 
-- Remove a service instance
+### Remove a service instance
 
 Press the **Shift** key and select the service instance to remove.
 
 ![image](./doc/images/cf-remove-service-instance.gif)
 
-- Bind a service instance to an application
+### Bind a service instance to an application
 
 List the services instances and press the **Cmd** key to select the instance you want to bind. Then, the list of applications
 will be listed: just select the one you want to bind with the previous selected service instance.
 
 ![image](./doc/images/cf-bind-service.gif)
 
-- List services bindings
+### List services bindings
 
 ![image](./doc/images/cf-services-bindings.gif)
 
-- Remove a service binding
+### Remove a service binding
 
 Use the **Shift** key to select a service binding to remove.
 
 ![image](./doc/images/cf-remove-service-binding.gif)
 
-- List shared domains
+### List shared domains
 
 ![image](./doc/images/cf-shared-domains.gif)
 
-- List private domains
+### List private domains
 
 ![image](./doc/images/cf-private-domains.gif)
 
-- List spaces
+### List spaces
 
 ![image](./doc/images/cf-spaces.gif)
 
-- Target a space
+### Target a space
 
 Use the Cmd key to target a space: it will be used for push operations.
 
 ![image](./doc/images/cf-target-space.gif)
 
-- List organizations
+### List organizations
 
 ![image](./doc/images/cf-organizations.gif)
 
-- List stacks
+### List stacks
 
 ![image](./doc/images/cf-stacks.gif)
 
-- List buildpacks
+### List buildpacks
 
 ![image](./doc/images/cf-buildpacks.gif)
 
-- List user provided services
+### List user provided services  
 
 ![image](./doc/images/cf-cups.gif)
 
-- List service brokers
+### List service brokers
 
-- Remove a service broker
+### Remove a service broker
 
 # Testing
 
